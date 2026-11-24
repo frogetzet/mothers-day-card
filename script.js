@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Тактильный отклик при открытии печати
     if (navigator.vibrate) {
-      navigator.vibrate([25, 40, 25]);
+      navigator.vibrate([30, 45, 30]);
     }
 
     // Запускаем падающие лепестки
@@ -76,13 +76,13 @@ document.addEventListener('DOMContentLoaded', () => {
   let canvasWidth = window.innerWidth;
   let canvasHeight = window.innerHeight;
 
-  // Цвета лепестков: нежно-розовые и небесно-голубые полупрозрачные оттенки
+  // Яркие и нежные оттенки лепестков тюльпанов
   const petalColors = [
-    'rgba(248, 187, 208, 0.55)', // Нежный розовый
-    'rgba(252, 228, 236, 0.65)', // Светло-розовый
-    'rgba(227, 242, 253, 0.50)', // Небесно-голубой
-    'rgba(179, 229, 252, 0.45)', // Мягкий голубой
-    'rgba(244, 143, 177, 0.40)'  // Розовый тюльпан
+    'rgba(244, 63, 94, 0.65)',   // Сочный розовый
+    'rgba(251, 113, 133, 0.60)', // Светящийся розовый
+    'rgba(253, 164, 175, 0.55)', // Нежный румянец
+    'rgba(56, 189, 248, 0.45)',  // Небесный блик
+    'rgba(252, 211, 77, 0.40)'   // Золотистая искорка
   ];
 
   class Petal {
@@ -92,16 +92,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     reset(initial = false) {
       this.x = Math.random() * canvasWidth;
-      // При инициализации распределяем по всему экрану, затем — сверху
       this.y = initial ? Math.random() * canvasHeight : -30;
-      this.size = 10 + Math.random() * 12; // Компактный деликатный размер
-      this.speedY = 0.6 + Math.random() * 0.8; // Медленное плавное падение
-      this.speedX = (Math.random() - 0.5) * 0.5;
+      this.size = 11 + Math.random() * 13;
+      this.speedY = 0.7 + Math.random() * 0.9;
+      this.speedX = (Math.random() - 0.5) * 0.6;
       this.angle = Math.random() * Math.PI * 2;
-      this.angularSpeed = (Math.random() - 0.5) * 0.02;
+      this.angularSpeed = (Math.random() - 0.5) * 0.025;
       this.sway = Math.random() * Math.PI * 2;
-      this.swaySpeed = 0.015 + Math.random() * 0.02;
-      this.swayAmplitude = 0.8 + Math.random() * 1.2;
+      this.swaySpeed = 0.018 + Math.random() * 0.02;
+      this.swayAmplitude = 0.9 + Math.random() * 1.3;
       this.color = petalColors[Math.floor(Math.random() * petalColors.length)];
       this.aspectRatio = 0.55 + Math.random() * 0.35;
     }
@@ -112,7 +111,6 @@ document.addEventListener('DOMContentLoaded', () => {
       this.y += this.speedY;
       this.angle += this.angularSpeed;
 
-      // Перезапуск при выходе за пределы экрана
       if (this.y > canvasHeight + 35 || this.x < -40 || this.x > canvasWidth + 40) {
         this.reset(false);
       }
@@ -123,7 +121,6 @@ document.addEventListener('DOMContentLoaded', () => {
       context.translate(this.x, this.y);
       context.rotate(this.angle);
 
-      // Форма лепестка тюльпана через кривые Безье
       context.beginPath();
       context.moveTo(0, -this.size);
       context.bezierCurveTo(
@@ -163,8 +160,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     canvas.classList.add('active');
 
-    // Небольшое количество лепестков (16 штук) для ощущения лёгкости
-    const PETAL_COUNT = 16;
+    const PETAL_COUNT = 18;
     petals = [];
     for (let i = 0; i < PETAL_COUNT; i++) {
       petals.push(new Petal(true));
@@ -184,7 +180,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Остановка анимации при скрытии вкладки для экономии батареи
   document.addEventListener('visibilitychange', () => {
     if (document.hidden) {
       if (animationFrameId) {
@@ -219,7 +214,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function updateDeckState(direction = 0) {
     cards.forEach((card, idx) => {
-      // Сброс предыдущих классов состояния
       card.classList.remove('active', 'next', 'next-2', 'hidden-back', 'swiped-left', 'swiped-right');
 
       if (idx === currentCardIndex) {
@@ -229,36 +223,27 @@ document.addEventListener('DOMContentLoaded', () => {
       } else if (idx === currentCardIndex + 2) {
         card.classList.add('next-2');
       } else if (idx < currentCardIndex) {
-        // Ушедшие карточки
-        if (direction < 0 && idx === currentCardIndex - 1) {
-          card.classList.add('swiped-left');
-        } else {
-          card.classList.add('swiped-left');
-        }
+        card.classList.add('swiped-left');
       } else {
         card.classList.add('hidden-back');
       }
     });
 
-    // Обновление счётчика: 01 / 10
     if (reasonsCounter) {
       const currentNumberStr = (currentCardIndex + 1).toString().padStart(2, '0');
       const totalNumberStr = totalCards.toString().padStart(2, '0');
       reasonsCounter.textContent = `${currentNumberStr} / ${totalNumberStr}`;
     }
 
-    // Обновление прогресс-бара
     if (reasonsProgressBar) {
       const percent = ((currentCardIndex + 1) / totalCards) * 100;
       reasonsProgressBar.style.width = `${percent}%`;
     }
 
-    // Состояние кнопки «Назад»
     if (btnPrevReason) {
       btnPrevReason.disabled = currentCardIndex === 0;
     }
 
-    // Текст кнопки «Дальше» на последней карточке
     if (btnNextReason) {
       if (currentCardIndex === totalCards - 1) {
         btnNextReason.querySelector('span').textContent = 'В начало ↺';
@@ -273,18 +258,17 @@ document.addEventListener('DOMContentLoaded', () => {
       currentCardIndex++;
       updateDeckState(1);
     } else {
-      // Циклический возврат в начало
       currentCardIndex = 0;
       updateDeckState(1);
     }
-    if (navigator.vibrate) navigator.vibrate(15);
+    if (navigator.vibrate) navigator.vibrate(20);
   }
 
   function prevReason() {
     if (currentCardIndex > 0) {
       currentCardIndex--;
       updateDeckState(-1);
-      if (navigator.vibrate) navigator.vibrate(15);
+      if (navigator.vibrate) navigator.vibrate(20);
     }
   }
 
@@ -295,7 +279,6 @@ document.addEventListener('DOMContentLoaded', () => {
     btnPrevReason.addEventListener('click', prevReason);
   }
 
-  // Обработка свайпов на тач-устройствах
   if (deckWrapper) {
     let touchStartX = 0;
     let touchStartY = 0;
@@ -316,56 +299,73 @@ document.addEventListener('DOMContentLoaded', () => {
     function handleSwipe() {
       const diffX = touchEndX - touchStartX;
       const diffY = touchEndY - touchStartY;
-      const swipeThreshold = 45; // Порог в пикселях
+      const swipeThreshold = 45;
 
-      // Игнорируем, если скролл был преимущественно вертикальным
       if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > swipeThreshold) {
         if (diffX < 0) {
-          // Свайп влево — следующая карточка
           nextReason();
         } else {
-          // Свайп вправо — предыдущая карточка
           prevReason();
         }
       }
     }
   }
 
-  // Инициализация стартового состояния стопки
   updateDeckState(0);
 
   /* ==========================================================================
-     4. ФОТОГАЛЕРЕЯ И ЛАЙТБОКС
+     4. ФОТОГАЛЕРЕЯ (16 ПОЛАРОИДОВ) И ИНТЕРАКТИВНЫЙ ЛАЙТБОКС С НАВИГАЦИЕЙ
      ========================================================================== */
-  const galleryCards = document.querySelectorAll('.gallery-card');
+  const polaroidCards = Array.from(document.querySelectorAll('.polaroid-card'));
   const lightboxModal = document.getElementById('lightboxModal');
   const lightboxImg = document.getElementById('lightboxImg');
   const lightboxCaption = document.getElementById('lightboxCaption');
+  const lightboxCounter = document.getElementById('lightboxCounter');
   const lightboxClose = document.getElementById('lightboxClose');
   const lightboxBackdrop = document.getElementById('lightboxBackdrop');
+  const lightboxPrev = document.getElementById('lightboxPrev');
+  const lightboxNext = document.getElementById('lightboxNext');
 
-  // Красивая обработка плейсхолдера для картинок
-  const galleryImages = document.querySelectorAll('.gallery-img');
-  galleryImages.forEach(img => {
-    // Если изображение успешно загрузилось — оно плавно появляется
-    img.addEventListener('load', () => {
-      img.style.opacity = '1';
-    });
-    // Если файла нет — скрываем <img>, оставив элегантный CSS-плейсхолдер
-    img.addEventListener('error', () => {
-      img.style.display = 'none';
-    });
-  });
+  let activePhotoIndex = 0;
+  const totalPhotos = polaroidCards.length;
 
-  function openLightbox(imgSrc, captionText) {
-    if (!lightboxModal || !lightboxImg) return;
-    lightboxImg.src = imgSrc;
-    lightboxImg.alt = captionText || 'Фотография';
-    if (lightboxCaption) {
-      lightboxCaption.textContent = captionText || '';
-    }
+  function showPhotoAt(index) {
+    if (index < 0) index = totalPhotos - 1;
+    if (index >= totalPhotos) index = 0;
+    activePhotoIndex = index;
+
+    const card = polaroidCards[activePhotoIndex];
+    if (!card || !lightboxImg) return;
+
+    const imgSrc = card.getAttribute('data-img');
+    const caption = card.getAttribute('data-caption');
+
+    lightboxImg.style.opacity = '0';
+    setTimeout(() => {
+      lightboxImg.src = imgSrc;
+      lightboxImg.alt = caption || 'Фотография';
+      if (lightboxCaption) {
+        lightboxCaption.textContent = caption || '';
+      }
+      if (lightboxCounter) {
+        const currentStr = (activePhotoIndex + 1).toString().padStart(2, '0');
+        const totalStr = totalPhotos.toString().padStart(2, '0');
+        lightboxCounter.textContent = `${currentStr} / ${totalStr}`;
+      }
+      lightboxImg.onload = () => {
+        lightboxImg.style.opacity = '1';
+      };
+      // На случай мгновенной загрузки из кэша
+      if (lightboxImg.complete) {
+        lightboxImg.style.opacity = '1';
+      }
+    }, 120);
+  }
+
+  function openLightbox(index) {
+    if (!lightboxModal) return;
+    showPhotoAt(index);
     lightboxModal.hidden = false;
-    // Даём браузеру применить hidden=false перед добавлением класса анимации
     requestAnimationFrame(() => {
       lightboxModal.classList.add('active');
     });
@@ -382,11 +382,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 320);
   }
 
-  galleryCards.forEach(card => {
+  polaroidCards.forEach((card, idx) => {
     card.addEventListener('click', () => {
-      const imgSrc = card.getAttribute('data-img');
-      const caption = card.getAttribute('data-caption');
-      openLightbox(imgSrc, caption);
+      openLightbox(idx);
     });
   });
 
@@ -396,11 +394,54 @@ document.addEventListener('DOMContentLoaded', () => {
   if (lightboxBackdrop) {
     lightboxBackdrop.addEventListener('click', closeLightbox);
   }
+  if (lightboxPrev) {
+    lightboxPrev.addEventListener('click', (e) => {
+      e.stopPropagation();
+      showPhotoAt(activePhotoIndex - 1);
+      if (navigator.vibrate) navigator.vibrate(15);
+    });
+  }
+  if (lightboxNext) {
+    lightboxNext.addEventListener('click', (e) => {
+      e.stopPropagation();
+      showPhotoAt(activePhotoIndex + 1);
+      if (navigator.vibrate) navigator.vibrate(15);
+    });
+  }
+
+  // Навигация с клавиатуры
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && lightboxModal && !lightboxModal.hidden) {
+    if (!lightboxModal || lightboxModal.hidden) return;
+    if (e.key === 'Escape') {
       closeLightbox();
+    } else if (e.key === 'ArrowLeft') {
+      showPhotoAt(activePhotoIndex - 1);
+    } else if (e.key === 'ArrowRight') {
+      showPhotoAt(activePhotoIndex + 1);
     }
   });
+
+  // Свайпы внутри самого лайтбокса
+  if (lightboxModal) {
+    let lbTouchStartX = 0;
+    let lbTouchEndX = 0;
+
+    lightboxModal.addEventListener('touchstart', (e) => {
+      lbTouchStartX = e.changedTouches[0].clientX;
+    }, { passive: true });
+
+    lightboxModal.addEventListener('touchend', (e) => {
+      lbTouchEndX = e.changedTouches[0].clientX;
+      const diffX = lbTouchEndX - lbTouchStartX;
+      if (Math.abs(diffX) > 50) {
+        if (diffX < 0) {
+          showPhotoAt(activePhotoIndex + 1);
+        } else {
+          showPhotoAt(activePhotoIndex - 1);
+        }
+      }
+    }, { passive: true });
+  }
 
   /* ==========================================================================
      5. КНОПКА «ОТПРАВИТЬ ОБЪЯТИЕ» И ВЗЛЕТАЮЩИЕ ТЮЛЬПАНЫ/СЕРДЦА
@@ -413,34 +454,34 @@ document.addEventListener('DOMContentLoaded', () => {
   let hugCount = 0;
   let toastTimeout = null;
 
-  // SVG-шаблоны для взлетающих элементов
   const svgTulip = `
-    <svg viewBox="0 0 32 32" width="28" height="28" fill="none" stroke="currentColor">
-      <path d="M16 6 C13 11 12 16 16 20 C20 16 19 11 16 6 Z" stroke-width="1.3" fill="rgba(248, 187, 208, 0.4)"/>
-      <path d="M16 20 C12 20 8 16 9 10 C12 12 14 16 16 17" stroke-width="1.3"/>
-      <path d="M16 20 C20 20 24 16 23 10 C20 12 18 16 16 17" stroke-width="1.3"/>
-      <path d="M16 20 L16 29" stroke-width="1.3"/>
+    <svg viewBox="0 0 32 32" width="30" height="30" fill="none" stroke="currentColor">
+      <path d="M16 6 C13 11 12 16 16 20 C20 16 19 11 16 6 Z" stroke-width="1.4" fill="rgba(244, 63, 94, 0.45)"/>
+      <path d="M16 20 C12 20 8 16 9 10 C12 12 14 16 16 17" stroke-width="1.4"/>
+      <path d="M16 20 C20 20 24 16 23 10 C20 12 18 16 16 17" stroke-width="1.4"/>
+      <path d="M16 20 L16 29" stroke-width="1.4"/>
     </svg>
   `;
 
   const svgHeart = `
-    <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+    <svg viewBox="0 0 24 24" width="26" height="26" fill="currentColor">
       <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
     </svg>
   `;
 
   const particlePalette = [
-    '#F8BBD0', // Пастельный розовый
-    '#E2A9B2', // Тон розы
-    '#B3E5FC', // Небесно-голубой
-    '#FCE4EC', // Нежно-розовый
-    '#D85A7F'  // Тёплый акцент
+    '#F43F5E', // Сочный розовый
+    '#FB7185', // Светящийся розовый
+    '#FDA4AF', // Персиковый
+    '#38BDF8', // Небесный
+    '#E11D48', // Рубиновый
+    '#F59E0B'  // Золотистый
   ];
 
   function spawnHugParticles() {
     if (!hugParticlesContainer) return;
 
-    const particleCount = 14;
+    const particleCount = 16;
     const windowWidth = window.innerWidth;
 
     for (let i = 0; i < particleCount; i++) {
@@ -453,12 +494,11 @@ document.addEventListener('DOMContentLoaded', () => {
       const color = particlePalette[Math.floor(Math.random() * particlePalette.length)];
       particle.style.color = color;
 
-      // Случайное смещение по горизонтали
       const startX = Math.random() * windowWidth;
-      const driftXMid = (Math.random() - 0.5) * 120 + 'px';
-      const driftXEnd = (Math.random() - 0.5) * 220 + 'px';
-      const rotMid = (Math.random() - 0.5) * 45 + 'deg';
-      const rotEnd = (Math.random() - 0.5) * 90 + 'deg';
+      const driftXMid = (Math.random() - 0.5) * 140 + 'px';
+      const driftXEnd = (Math.random() - 0.5) * 240 + 'px';
+      const rotMid = (Math.random() - 0.5) * 50 + 'deg';
+      const rotEnd = (Math.random() - 0.5) * 100 + 'deg';
 
       particle.style.left = `${startX}px`;
       particle.style.setProperty('--drift-x-mid', driftXMid);
@@ -473,7 +513,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
       hugParticlesContainer.appendChild(particle);
 
-      // Удаление частицы из DOM после завершения анимации
       setTimeout(() => {
         particle.remove();
       }, (delay + duration) * 1000 + 100);
@@ -481,7 +520,6 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function handleHugClick() {
-    // 1. Увеличиваем счётчик
     hugCount++;
     if (hugCounterNumber) {
       hugCounterNumber.textContent = hugCount.toString();
@@ -491,15 +529,12 @@ document.addEventListener('DOMContentLoaded', () => {
       }, 300);
     }
 
-    // 2. Тактильная отдача на смартфонах
     if (navigator.vibrate) {
-      navigator.vibrate(30);
+      navigator.vibrate(35);
     }
 
-    // 3. Запуск взлетающих тюльпанов и сердец
     spawnHugParticles();
 
-    // 4. Показ нежного уведомления
     if (hugToast) {
       hugToast.classList.add('show');
       if (toastTimeout) clearTimeout(toastTimeout);
@@ -536,7 +571,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     revealElements.forEach(el => revealObserver.observe(el));
   } else {
-    // Резервный вариант для старых браузеров
     revealElements.forEach(el => el.classList.add('revealed'));
   }
 });

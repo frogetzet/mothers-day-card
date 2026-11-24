@@ -3,27 +3,31 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <meta name="theme-color" content="#FAF9F6">
+  <meta name="theme-color" content="#FFE4E8">
   <title>С Днём матери, любимая мамочка!</title>
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Manrope:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <!-- Ambient Blurred Mesh Spot Accents -->
-  <div class="ambient-mesh mesh-1" aria-hidden="true"></div>
-  <div class="ambient-mesh mesh-2" aria-hidden="true"></div>
-  <div class="ambient-mesh mesh-3" aria-hidden="true"></div>
+  <!-- Живые динамические светящиеся сферы заднего фона (яркий теплый фон) -->
+  <div class="ambient-orbs-container" aria-hidden="true">
+    <div class="ambient-orb orb-1"></div>
+    <div class="ambient-orb orb-2"></div>
+    <div class="ambient-orb orb-3"></div>
+    <div class="ambient-orb orb-4"></div>
+    <div class="ambient-orb orb-5"></div>
+  </div>
 
-  <!-- Petals Canvas (Starts falling when envelope opens) -->
+  <!-- Фоновые мерцающие искорки / лепестки на Canvas -->
   <canvas id="petalsCanvas" class="petals-canvas" aria-hidden="true"></canvas>
 
-  <!-- Centered Mobile Column Layout -->
+  <!-- Главный центрированный контейнер -->
   <main class="app-container">
 
     <!-- 1. ПЕРВЫЙ ЭКРАН (100dvh): ИНТЕРАКТИВНЫЙ КОНВЕРТ -->
@@ -33,37 +37,37 @@
         <div class="envelope-wrapper" id="envelopeWrapper">
           <div class="envelope" id="envelopeCard" role="button" tabindex="0" aria-label="Открыть поздравительный конверт">
             
-            <!-- Задняя внутренняя стенка конверта -->
+            <!-- Задняя стенка конверта -->
             <div class="envelope-back"></div>
 
             <!-- Письмо, выглядывающее из конверта -->
             <div class="envelope-letter" id="envelopeLetter">
               <div class="letter-decor">
                 <svg class="tulip-svg-mini" viewBox="0 0 32 32" fill="none" stroke="currentColor">
-                  <path d="M16 6 C13 11 12 16 16 20 C20 16 19 11 16 6 Z" stroke-width="1.2" stroke-linecap="round"/>
-                  <path d="M16 20 C12 20 8 16 9 10 C12 12 14 16 16 17" stroke-width="1.2" stroke-linecap="round"/>
-                  <path d="M16 20 C20 20 24 16 23 10 C20 12 18 16 16 17" stroke-width="1.2" stroke-linecap="round"/>
-                  <path d="M16 20 L16 29" stroke-width="1.2" stroke-linecap="round"/>
+                  <path d="M16 6 C13 11 12 16 16 20 C20 16 19 11 16 6 Z" stroke-width="1.3" fill="rgba(255, 112, 140, 0.25)"/>
+                  <path d="M16 20 C12 20 8 16 9 10 C12 12 14 16 16 17" stroke-width="1.3"/>
+                  <path d="M16 20 C20 20 24 16 23 10 C20 12 18 16 16 17" stroke-width="1.3"/>
+                  <path d="M16 20 L16 29" stroke-width="1.3"/>
                 </svg>
                 <span class="letter-note">Любимой маме</span>
               </div>
             </div>
 
-            <!-- Нижний и боковые карманы конверта -->
+            <!-- Карманы конверта -->
             <div class="envelope-pocket"></div>
 
-            <!-- Верхний клапан конверта (с 3D rotateX анимацией) -->
+            <!-- Верхний клапан (3D rotateX анимация) -->
             <div class="envelope-flap" id="envelopeFlap"></div>
 
-            <!-- Тонкая векторная печать в виде тюльпана -->
+            <!-- Яркая розовая восковая печать с золотистым тиснением тюльпана -->
             <div class="wax-seal" id="waxSeal" aria-hidden="true">
               <div class="seal-inner">
                 <svg class="seal-tulip-icon" viewBox="0 0 32 32" fill="none" stroke="currentColor">
-                  <path d="M16 7 C14 11 13 15 16 18 C19 15 18 11 16 7 Z" stroke-width="1.3" stroke-linecap="round"/>
-                  <path d="M16 18 C12 18 9 14 10 10 C12 12 14 15 16 16" stroke-width="1.3" stroke-linecap="round"/>
-                  <path d="M16 18 C20 18 23 14 22 10 C20 12 18 15 16 16" stroke-width="1.3" stroke-linecap="round"/>
-                  <path d="M16 18 L16 27" stroke-width="1.3" stroke-linecap="round"/>
-                  <path d="M16 23 C13 22 11 20 12 17" stroke-width="1.2" stroke-linecap="round"/>
+                  <path d="M16 7 C14 11 13 15 16 18 C19 15 18 11 16 7 Z" stroke-width="1.4" fill="rgba(255, 255, 255, 0.3)"/>
+                  <path d="M16 18 C12 18 9 14 10 10 C12 12 14 15 16 16" stroke-width="1.4"/>
+                  <path d="M16 18 C20 18 23 14 22 10 C20 12 18 15 16 16" stroke-width="1.4"/>
+                  <path d="M16 18 L16 27" stroke-width="1.4"/>
+                  <path d="M16 23 C13 22 11 20 12 17" stroke-width="1.3"/>
                 </svg>
               </div>
             </div>
@@ -73,14 +77,14 @@
 
         <div class="envelope-caption">
           <p class="caption-title">Для самой лучшей мамы</p>
-          <p class="caption-action">Нажми, чтобы открыть</p>
+          <p class="caption-action">Нажми, чтобы открыть 🤍</p>
         </div>
 
       </div>
 
       <!-- Иконка плавного скролла вниз после открытия -->
       <div class="scroll-down-indicator" id="scrollDownIndicator" aria-hidden="true">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
           <path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
       </div>
@@ -90,23 +94,19 @@
     <!-- ОСНОВНОЙ КОНТЕНТ ОТКРЫТКИ -->
     <div class="card-content-flow" id="cardContentFlow">
 
-      <!-- 2. ГЛАВНЫЙ ЭКРАН ПОЗДРАВЛЕНИЯ -->
+      <!-- 2. ГЛАВНЫЙ ЭКРАН ПОЗДРАВЛЕНИЯ (без даты) -->
       <section class="section-hero reveal-item" id="mainGreeting">
         
-        <div class="hero-badge-wrap">
-          <span class="editorial-date">24 ноября • День матери</span>
-        </div>
-
         <h1 class="hero-title">С Днём матери!</h1>
 
         <div class="floral-divider" aria-hidden="true">
           <svg class="divider-tulip" viewBox="0 0 40 24" fill="none" stroke="currentColor">
-            <line x1="0" y1="12" x2="14" y2="12" stroke-width="0.8" stroke-opacity="0.4" />
-            <path d="M20 5 C18 8 17 12 20 15 C23 12 22 8 20 5 Z" stroke-width="1.2" stroke-linecap="round"/>
-            <path d="M20 15 C17 15 14 12 15 8 C17 10 19 13 20 13.5" stroke-width="1.1" stroke-linecap="round"/>
-            <path d="M20 15 C23 15 26 12 25 8 C23 10 21 13 20 13.5" stroke-width="1.1" stroke-linecap="round"/>
-            <line x1="20" y1="15" x2="20" y2="21" stroke-width="1.1" stroke-linecap="round"/>
-            <line x1="26" y1="12" x2="40" y2="12" stroke-width="0.8" stroke-opacity="0.4" />
+            <line x1="0" y1="12" x2="14" y2="12" stroke-width="1" stroke-opacity="0.4" />
+            <path d="M20 5 C18 8 17 12 20 15 C23 12 22 8 20 5 Z" stroke-width="1.3" fill="rgba(244, 63, 94, 0.2)" stroke-linecap="round"/>
+            <path d="M20 15 C17 15 14 12 15 8 C17 10 19 13 20 13.5" stroke-width="1.2" stroke-linecap="round"/>
+            <path d="M20 15 C23 15 26 12 25 8 C23 10 21 13 20 13.5" stroke-width="1.2" stroke-linecap="round"/>
+            <line x1="20" y1="15" x2="20" y2="21" stroke-width="1.2" stroke-linecap="round"/>
+            <line x1="26" y1="12" x2="40" y2="12" stroke-width="1" stroke-opacity="0.4" />
           </svg>
         </div>
 
@@ -118,11 +118,10 @@
       </section>
 
 
-      <!-- 3. БЛОК «10 ПРИЧИН, ПОЧЕМУ ТЫ ЛУЧШАЯ МАМА» -->
+      <!-- 3. БЛОК «10 ПРИЧИН, ПОЧЕМУ ТЫ ЛУЧШАЯ МАМА» (без плашки "искренние слова") -->
       <section class="section-reasons reveal-item" id="reasonsBlock">
         
         <div class="section-header">
-          <span class="section-label">Искренние слова</span>
           <h2 class="section-title">10 причин, почему ты — лучшая мама</h2>
         </div>
 
@@ -135,10 +134,10 @@
               <div class="card-inner">
                 <div class="card-top">
                   <svg class="card-tulip-icon" viewBox="0 0 32 32" fill="none" stroke="currentColor">
-                    <path d="M16 6 C13 11 12 16 16 20 C20 16 19 11 16 6 Z" stroke-width="1.2"/>
-                    <path d="M16 20 C12 20 8 16 9 10 C12 12 14 16 16 17" stroke-width="1.2"/>
-                    <path d="M16 20 C20 20 24 16 23 10 C20 12 18 16 16 17" stroke-width="1.2"/>
-                    <path d="M16 20 L16 29" stroke-width="1.2"/>
+                    <path d="M16 6 C13 11 12 16 16 20 C20 16 19 11 16 6 Z" stroke-width="1.3" fill="rgba(244, 63, 94, 0.25)"/>
+                    <path d="M16 20 C12 20 8 16 9 10 C12 12 14 16 16 17" stroke-width="1.3"/>
+                    <path d="M16 20 C20 20 24 16 23 10 C20 12 18 16 16 17" stroke-width="1.3"/>
+                    <path d="M16 20 L16 29" stroke-width="1.3"/>
                   </svg>
                   <span class="card-number">01</span>
                 </div>
@@ -152,10 +151,10 @@
               <div class="card-inner">
                 <div class="card-top">
                   <svg class="card-tulip-icon" viewBox="0 0 32 32" fill="none" stroke="currentColor">
-                    <path d="M16 6 C13 11 12 16 16 20 C20 16 19 11 16 6 Z" stroke-width="1.2"/>
-                    <path d="M16 20 C12 20 8 16 9 10 C12 12 14 16 16 17" stroke-width="1.2"/>
-                    <path d="M16 20 C20 20 24 16 23 10 C20 12 18 16 16 17" stroke-width="1.2"/>
-                    <path d="M16 20 L16 29" stroke-width="1.2"/>
+                    <path d="M16 6 C13 11 12 16 16 20 C20 16 19 11 16 6 Z" stroke-width="1.3" fill="rgba(244, 63, 94, 0.25)"/>
+                    <path d="M16 20 C12 20 8 16 9 10 C12 12 14 16 16 17" stroke-width="1.3"/>
+                    <path d="M16 20 C20 20 24 16 23 10 C20 12 18 16 16 17" stroke-width="1.3"/>
+                    <path d="M16 20 L16 29" stroke-width="1.3"/>
                   </svg>
                   <span class="card-number">02</span>
                 </div>
@@ -169,10 +168,10 @@
               <div class="card-inner">
                 <div class="card-top">
                   <svg class="card-tulip-icon" viewBox="0 0 32 32" fill="none" stroke="currentColor">
-                    <path d="M16 6 C13 11 12 16 16 20 C20 16 19 11 16 6 Z" stroke-width="1.2"/>
-                    <path d="M16 20 C12 20 8 16 9 10 C12 12 14 16 16 17" stroke-width="1.2"/>
-                    <path d="M16 20 C20 20 24 16 23 10 C20 12 18 16 16 17" stroke-width="1.2"/>
-                    <path d="M16 20 L16 29" stroke-width="1.2"/>
+                    <path d="M16 6 C13 11 12 16 16 20 C20 16 19 11 16 6 Z" stroke-width="1.3" fill="rgba(244, 63, 94, 0.25)"/>
+                    <path d="M16 20 C12 20 8 16 9 10 C12 12 14 16 16 17" stroke-width="1.3"/>
+                    <path d="M16 20 C20 20 24 16 23 10 C20 12 18 16 16 17" stroke-width="1.3"/>
+                    <path d="M16 20 L16 29" stroke-width="1.3"/>
                   </svg>
                   <span class="card-number">03</span>
                 </div>
@@ -186,10 +185,10 @@
               <div class="card-inner">
                 <div class="card-top">
                   <svg class="card-tulip-icon" viewBox="0 0 32 32" fill="none" stroke="currentColor">
-                    <path d="M16 6 C13 11 12 16 16 20 C20 16 19 11 16 6 Z" stroke-width="1.2"/>
-                    <path d="M16 20 C12 20 8 16 9 10 C12 12 14 16 16 17" stroke-width="1.2"/>
-                    <path d="M16 20 C20 20 24 16 23 10 C20 12 18 16 16 17" stroke-width="1.2"/>
-                    <path d="M16 20 L16 29" stroke-width="1.2"/>
+                    <path d="M16 6 C13 11 12 16 16 20 C20 16 19 11 16 6 Z" stroke-width="1.3" fill="rgba(244, 63, 94, 0.25)"/>
+                    <path d="M16 20 C12 20 8 16 9 10 C12 12 14 16 16 17" stroke-width="1.3"/>
+                    <path d="M16 20 C20 20 24 16 23 10 C20 12 18 16 16 17" stroke-width="1.3"/>
+                    <path d="M16 20 L16 29" stroke-width="1.3"/>
                   </svg>
                   <span class="card-number">04</span>
                 </div>
@@ -203,10 +202,10 @@
               <div class="card-inner">
                 <div class="card-top">
                   <svg class="card-tulip-icon" viewBox="0 0 32 32" fill="none" stroke="currentColor">
-                    <path d="M16 6 C13 11 12 16 16 20 C20 16 19 11 16 6 Z" stroke-width="1.2"/>
-                    <path d="M16 20 C12 20 8 16 9 10 C12 12 14 16 16 17" stroke-width="1.2"/>
-                    <path d="M16 20 C20 20 24 16 23 10 C20 12 18 16 16 17" stroke-width="1.2"/>
-                    <path d="M16 20 L16 29" stroke-width="1.2"/>
+                    <path d="M16 6 C13 11 12 16 16 20 C20 16 19 11 16 6 Z" stroke-width="1.3" fill="rgba(244, 63, 94, 0.25)"/>
+                    <path d="M16 20 C12 20 8 16 9 10 C12 12 14 16 16 17" stroke-width="1.3"/>
+                    <path d="M16 20 C20 20 24 16 23 10 C20 12 18 16 16 17" stroke-width="1.3"/>
+                    <path d="M16 20 L16 29" stroke-width="1.3"/>
                   </svg>
                   <span class="card-number">05</span>
                 </div>
@@ -220,10 +219,10 @@
               <div class="card-inner">
                 <div class="card-top">
                   <svg class="card-tulip-icon" viewBox="0 0 32 32" fill="none" stroke="currentColor">
-                    <path d="M16 6 C13 11 12 16 16 20 C20 16 19 11 16 6 Z" stroke-width="1.2"/>
-                    <path d="M16 20 C12 20 8 16 9 10 C12 12 14 16 16 17" stroke-width="1.2"/>
-                    <path d="M16 20 C20 20 24 16 23 10 C20 12 18 16 16 17" stroke-width="1.2"/>
-                    <path d="M16 20 L16 29" stroke-width="1.2"/>
+                    <path d="M16 6 C13 11 12 16 16 20 C20 16 19 11 16 6 Z" stroke-width="1.3" fill="rgba(244, 63, 94, 0.25)"/>
+                    <path d="M16 20 C12 20 8 16 9 10 C12 12 14 16 16 17" stroke-width="1.3"/>
+                    <path d="M16 20 C20 20 24 16 23 10 C20 12 18 16 16 17" stroke-width="1.3"/>
+                    <path d="M16 20 L16 29" stroke-width="1.3"/>
                   </svg>
                   <span class="card-number">06</span>
                 </div>
@@ -237,10 +236,10 @@
               <div class="card-inner">
                 <div class="card-top">
                   <svg class="card-tulip-icon" viewBox="0 0 32 32" fill="none" stroke="currentColor">
-                    <path d="M16 6 C13 11 12 16 16 20 C20 16 19 11 16 6 Z" stroke-width="1.2"/>
-                    <path d="M16 20 C12 20 8 16 9 10 C12 12 14 16 16 17" stroke-width="1.2"/>
-                    <path d="M16 20 C20 20 24 16 23 10 C20 12 18 16 16 17" stroke-width="1.2"/>
-                    <path d="M16 20 L16 29" stroke-width="1.2"/>
+                    <path d="M16 6 C13 11 12 16 16 20 C20 16 19 11 16 6 Z" stroke-width="1.3" fill="rgba(244, 63, 94, 0.25)"/>
+                    <path d="M16 20 C12 20 8 16 9 10 C12 12 14 16 16 17" stroke-width="1.3"/>
+                    <path d="M16 20 C20 20 24 16 23 10 C20 12 18 16 16 17" stroke-width="1.3"/>
+                    <path d="M16 20 L16 29" stroke-width="1.3"/>
                   </svg>
                   <span class="card-number">07</span>
                 </div>
@@ -254,10 +253,10 @@
               <div class="card-inner">
                 <div class="card-top">
                   <svg class="card-tulip-icon" viewBox="0 0 32 32" fill="none" stroke="currentColor">
-                    <path d="M16 6 C13 11 12 16 16 20 C20 16 19 11 16 6 Z" stroke-width="1.2"/>
-                    <path d="M16 20 C12 20 8 16 9 10 C12 12 14 16 16 17" stroke-width="1.2"/>
-                    <path d="M16 20 C20 20 24 16 23 10 C20 12 18 16 16 17" stroke-width="1.2"/>
-                    <path d="M16 20 L16 29" stroke-width="1.2"/>
+                    <path d="M16 6 C13 11 12 16 16 20 C20 16 19 11 16 6 Z" stroke-width="1.3" fill="rgba(244, 63, 94, 0.25)"/>
+                    <path d="M16 20 C12 20 8 16 9 10 C12 12 14 16 16 17" stroke-width="1.3"/>
+                    <path d="M16 20 C20 20 24 16 23 10 C20 12 18 16 16 17" stroke-width="1.3"/>
+                    <path d="M16 20 L16 29" stroke-width="1.3"/>
                   </svg>
                   <span class="card-number">08</span>
                 </div>
@@ -271,10 +270,10 @@
               <div class="card-inner">
                 <div class="card-top">
                   <svg class="card-tulip-icon" viewBox="0 0 32 32" fill="none" stroke="currentColor">
-                    <path d="M16 6 C13 11 12 16 16 20 C20 16 19 11 16 6 Z" stroke-width="1.2"/>
-                    <path d="M16 20 C12 20 8 16 9 10 C12 12 14 16 16 17" stroke-width="1.2"/>
-                    <path d="M16 20 C20 20 24 16 23 10 C20 12 18 16 16 17" stroke-width="1.2"/>
-                    <path d="M16 20 L16 29" stroke-width="1.2"/>
+                    <path d="M16 6 C13 11 12 16 16 20 C20 16 19 11 16 6 Z" stroke-width="1.3" fill="rgba(244, 63, 94, 0.25)"/>
+                    <path d="M16 20 C12 20 8 16 9 10 C12 12 14 16 16 17" stroke-width="1.3"/>
+                    <path d="M16 20 C20 20 24 16 23 10 C20 12 18 16 16 17" stroke-width="1.3"/>
+                    <path d="M16 20 L16 29" stroke-width="1.3"/>
                   </svg>
                   <span class="card-number">09</span>
                 </div>
@@ -288,10 +287,10 @@
               <div class="card-inner">
                 <div class="card-top">
                   <svg class="card-tulip-icon" viewBox="0 0 32 32" fill="none" stroke="currentColor">
-                    <path d="M16 6 C13 11 12 16 16 20 C20 16 19 11 16 6 Z" stroke-width="1.2"/>
-                    <path d="M16 20 C12 20 8 16 9 10 C12 12 14 16 16 17" stroke-width="1.2"/>
-                    <path d="M16 20 C20 20 24 16 23 10 C20 12 18 16 16 17" stroke-width="1.2"/>
-                    <path d="M16 20 L16 29" stroke-width="1.2"/>
+                    <path d="M16 6 C13 11 12 16 16 20 C20 16 19 11 16 6 Z" stroke-width="1.3" fill="rgba(244, 63, 94, 0.25)"/>
+                    <path d="M16 20 C12 20 8 16 9 10 C12 12 14 16 16 17" stroke-width="1.3"/>
+                    <path d="M16 20 C20 20 24 16 23 10 C20 12 18 16 16 17" stroke-width="1.3"/>
+                    <path d="M16 20 L16 29" stroke-width="1.3"/>
                   </svg>
                   <span class="card-number">10</span>
                 </div>
@@ -306,7 +305,7 @@
         <!-- Навигация стопки карточек -->
         <div class="deck-navigation">
           <button type="button" class="deck-btn" id="btnPrevReason" aria-label="Предыдущая причина" disabled>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M15 19l-7-7 7-7" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
             <span>Назад</span>
@@ -318,13 +317,13 @@
 
           <button type="button" class="deck-btn" id="btnNextReason" aria-label="Следующая причина">
             <span>Дальше</span>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
           </button>
         </div>
 
-        <!-- Тонкий прогресс-бар -->
+        <!-- Прогресс-бар -->
         <div class="deck-progress-track">
           <div class="deck-progress-bar" id="reasonsProgressBar"></div>
         </div>
@@ -334,134 +333,238 @@
       </section>
 
 
-      <!-- 4. ФОТОГАЛЕРЕЯ ВОСПОМИНАНИЙ (5-10 ФОТОГРАФИЙ) -->
+      <!-- 4. ФОТОГАЛЕРЕЯ ВОСПОМИНАНИЙ (16 ПОЛАРОИД-КАРТОЧЕК С АНИМАЦИЕЙ) -->
       <section class="section-gallery reveal-item" id="gallerySection">
         
         <div class="section-header">
-          <span class="section-label">Наши моменты</span>
-          <h2 class="section-title">Галерея тёплых воспоминаний</h2>
-          <p class="section-subtitle">Мгновения, которые навсегда остаются в сердце</p>
+          <h2 class="section-title">Альбом тёплых моментов</h2>
+          <p class="section-subtitle">16 драгоценных мгновений нашего счастья с тобой</p>
         </div>
 
         <div class="gallery-feed" id="galleryFeed">
 
           <!-- Фото 1 -->
-          <figure class="gallery-card" data-img="images/photo-1.jpg" data-caption="Моменты тихого счастья, которые мы бережём в сердце.">
+          <figure class="polaroid-card" data-index="0" data-img="images/photo-1.jpg" data-caption="Твоя тёплая улыбка согревает в любые зимние морозы.">
+            <div class="polaroid-tape"></div>
             <div class="photo-frame">
-              <div class="photo-placeholder" aria-hidden="true">
-                <svg class="placeholder-tulip" viewBox="0 0 32 32" fill="none" stroke="currentColor">
-                  <path d="M16 6 C13 11 12 16 16 20 C20 16 19 11 16 6 Z" stroke-width="1.2"/>
-                  <path d="M16 20 C12 20 8 16 9 10 C12 12 14 16 16 17" stroke-width="1.2"/>
-                  <path d="M16 20 C20 20 24 16 23 10 C20 12 18 16 16 17" stroke-width="1.2"/>
-                  <path d="M16 20 L16 29" stroke-width="1.2"/>
-                </svg>
-                <span class="placeholder-label">Семейное фото №1</span>
-              </div>
-              <img src="images/photo-1.jpg" alt="Моменты счастья" loading="lazy" class="gallery-img">
+              <img src="images/photo-1.jpg" alt="Мама с малышами зимой" loading="eager" decoding="async" class="gallery-img">
+              <div class="polaroid-shimmer" aria-hidden="true"></div>
             </div>
-            <figcaption class="gallery-caption">Моменты тихого счастья, которые мы бережём в сердце.</figcaption>
+            <figcaption class="polaroid-footer">
+              <span class="polaroid-stamp">01</span>
+              <p class="polaroid-caption">Твоя тёплая улыбка согревает в любые морозы.</p>
+              <span class="polaroid-heart">🤍</span>
+            </figcaption>
           </figure>
 
           <!-- Фото 2 -->
-          <figure class="gallery-card" data-img="images/photo-2.jpg" data-caption="Твоя улыбка — самый тёплый свет в нашем доме.">
+          <figure class="polaroid-card" data-index="1" data-img="images/photo-2.jpg" data-caption="Нежность и любовь, которую ты привила нам с самых первых дней.">
+            <div class="polaroid-tape"></div>
             <div class="photo-frame">
-              <div class="photo-placeholder" aria-hidden="true">
-                <svg class="placeholder-tulip" viewBox="0 0 32 32" fill="none" stroke="currentColor">
-                  <path d="M16 6 C13 11 12 16 16 20 C20 16 19 11 16 6 Z" stroke-width="1.2"/>
-                  <path d="M16 20 C12 20 8 16 9 10 C12 12 14 16 16 17" stroke-width="1.2"/>
-                  <path d="M16 20 C20 20 24 16 23 10 C20 12 18 16 16 17" stroke-width="1.2"/>
-                  <path d="M16 20 L16 29" stroke-width="1.2"/>
-                </svg>
-                <span class="placeholder-label">Семейное фото №2</span>
-              </div>
-              <img src="images/photo-2.jpg" alt="Твоя улыбка" loading="lazy" class="gallery-img">
+              <img src="images/photo-2.jpg" alt="Поцелуй сестрёнки в кроватке" loading="eager" decoding="async" class="gallery-img">
+              <div class="polaroid-shimmer" aria-hidden="true"></div>
             </div>
-            <figcaption class="gallery-caption">Твоя улыбка — самый тёплый свет в нашем доме.</figcaption>
+            <figcaption class="polaroid-footer">
+              <span class="polaroid-stamp">02</span>
+              <p class="polaroid-caption">Нежность и забота, подаренные с первых дней.</p>
+              <span class="polaroid-heart">✨</span>
+            </figcaption>
           </figure>
 
           <!-- Фото 3 -->
-          <figure class="gallery-card" data-img="images/photo-3.jpg" data-caption="Семейные дни, наполненные гармонией и спокойствием.">
+          <figure class="polaroid-card" data-index="2" data-img="images/photo-3.jpg" data-caption="Самое сладкое и беззаботное детство благодаря тебе!">
+            <div class="polaroid-tape"></div>
             <div class="photo-frame">
-              <div class="photo-placeholder" aria-hidden="true">
-                <svg class="placeholder-tulip" viewBox="0 0 32 32" fill="none" stroke="currentColor">
-                  <path d="M16 6 C13 11 12 16 16 20 C20 16 19 11 16 6 Z" stroke-width="1.2"/>
-                  <path d="M16 20 C12 20 8 16 9 10 C12 12 14 16 16 17" stroke-width="1.2"/>
-                  <path d="M16 20 C20 20 24 16 23 10 C20 12 18 16 16 17" stroke-width="1.2"/>
-                  <path d="M16 20 L16 29" stroke-width="1.2"/>
-                </svg>
-                <span class="placeholder-label">Семейное фото №3</span>
-              </div>
-              <img src="images/photo-3.jpg" alt="Семейный день" loading="lazy" class="gallery-img">
+              <img src="images/photo-3.jpg" alt="Сладкие шоколадные щёчки" loading="lazy" decoding="async" class="gallery-img">
+              <div class="polaroid-shimmer" aria-hidden="true"></div>
             </div>
-            <figcaption class="gallery-caption">Семейные дни, наполненные гармонией и спокойствием.</figcaption>
+            <figcaption class="polaroid-footer">
+              <span class="polaroid-stamp">03</span>
+              <p class="polaroid-caption">Самое сладкое и беззаботное детство с тобой!</p>
+              <span class="polaroid-heart">🧁</span>
+            </figcaption>
           </figure>
 
           <!-- Фото 4 -->
-          <figure class="gallery-card" data-img="images/photo-4.jpg" data-caption="Рядом с тобой всегда легко, тепло и спокойно.">
+          <figure class="polaroid-card" data-index="3" data-img="images/photo-4.jpg" data-caption="Наш уютный дом, наполненный детским смехом и твоей заботой.">
+            <div class="polaroid-tape"></div>
             <div class="photo-frame">
-              <div class="photo-placeholder" aria-hidden="true">
-                <svg class="placeholder-tulip" viewBox="0 0 32 32" fill="none" stroke="currentColor">
-                  <path d="M16 6 C13 11 12 16 16 20 C20 16 19 11 16 6 Z" stroke-width="1.2"/>
-                  <path d="M16 20 C12 20 8 16 9 10 C12 12 14 16 16 17" stroke-width="1.2"/>
-                  <path d="M16 20 C20 20 24 16 23 10 C20 12 18 16 16 17" stroke-width="1.2"/>
-                  <path d="M16 20 L16 29" stroke-width="1.2"/>
-                </svg>
-                <span class="placeholder-label">Семейное фото №4</span>
-              </div>
-              <img src="images/photo-4.jpg" alt="Тепло и покой" loading="lazy" class="gallery-img">
+              <img src="images/photo-4.jpg" alt="Игры на ковре с игрушками" loading="lazy" decoding="async" class="gallery-img">
+              <div class="polaroid-shimmer" aria-hidden="true"></div>
             </div>
-            <figcaption class="gallery-caption">Рядом с тобой всегда легко, тепло и спокойно.</figcaption>
+            <figcaption class="polaroid-footer">
+              <span class="polaroid-stamp">04</span>
+              <p class="polaroid-caption">Наш дом, наполненный смехом и твоим теплом.</p>
+              <span class="polaroid-heart">🧸</span>
+            </figcaption>
           </figure>
 
           <!-- Фото 5 -->
-          <figure class="gallery-card" data-img="images/photo-5.jpg" data-caption="Мася тоже знает, чьи руки самые ласковые 🐾">
+          <figure class="polaroid-card" data-index="4" data-img="images/photo-5.jpg" data-caption="Первые шаги, первые сугробы и твоя надёжная рука рядом.">
+            <div class="polaroid-tape"></div>
             <div class="photo-frame">
-              <div class="photo-placeholder" aria-hidden="true">
-                <svg class="placeholder-tulip" viewBox="0 0 32 32" fill="none" stroke="currentColor">
-                  <path d="M16 6 C13 11 12 16 16 20 C20 16 19 11 16 6 Z" stroke-width="1.2"/>
-                  <path d="M16 20 C12 20 8 16 9 10 C12 12 14 16 16 17" stroke-width="1.2"/>
-                  <path d="M16 20 C20 20 24 16 23 10 C20 12 18 16 16 17" stroke-width="1.2"/>
-                  <path d="M16 20 L16 29" stroke-width="1.2"/>
-                </svg>
-                <span class="placeholder-label">Семейное фото №5</span>
-              </div>
-              <img src="images/photo-5.jpg" alt="Мася шлёт привет" loading="lazy" class="gallery-img">
+              <img src="images/photo-5.jpg" alt="Зимняя прогулка" loading="lazy" decoding="async" class="gallery-img">
+              <div class="polaroid-shimmer" aria-hidden="true"></div>
             </div>
-            <figcaption class="gallery-caption">Мася тоже знает, чьи руки самые ласковые 🐾</figcaption>
+            <figcaption class="polaroid-footer">
+              <span class="polaroid-stamp">05</span>
+              <p class="polaroid-caption">Первые сугробы и твоя надёжная рука рядом.</p>
+              <span class="polaroid-heart">❄️</span>
+            </figcaption>
           </figure>
 
           <!-- Фото 6 -->
-          <figure class="gallery-card" data-img="images/photo-6.jpg" data-caption="Праздники, которые становятся особенными только благодаря тебе.">
+          <figure class="polaroid-card" data-index="5" data-img="images/photo-6.jpg" data-caption="Летние дни, речные брызги и ощущение полной безопасности.">
+            <div class="polaroid-tape"></div>
             <div class="photo-frame">
-              <div class="photo-placeholder" aria-hidden="true">
-                <svg class="placeholder-tulip" viewBox="0 0 32 32" fill="none" stroke="currentColor">
-                  <path d="M16 6 C13 11 12 16 16 20 C20 16 19 11 16 6 Z" stroke-width="1.2"/>
-                  <path d="M16 20 C12 20 8 16 9 10 C12 12 14 16 16 17" stroke-width="1.2"/>
-                  <path d="M16 20 C20 20 24 16 23 10 C20 12 18 16 16 17" stroke-width="1.2"/>
-                  <path d="M16 20 L16 29" stroke-width="1.2"/>
-                </svg>
-                <span class="placeholder-label">Семейное фото №6</span>
-              </div>
-              <img src="images/photo-6.jpg" alt="Семейный праздник" loading="lazy" class="gallery-img">
+              <img src="images/photo-6.jpg" alt="Купание на речке" loading="lazy" decoding="async" class="gallery-img">
+              <div class="polaroid-shimmer" aria-hidden="true"></div>
             </div>
-            <figcaption class="gallery-caption">Праздники, которые становятся особенными только благодаря тебе.</figcaption>
+            <figcaption class="polaroid-footer">
+              <span class="polaroid-stamp">06</span>
+              <p class="polaroid-caption">Летние брызги и ощущение полной безопасности.</p>
+              <span class="polaroid-heart">☀️</span>
+            </figcaption>
           </figure>
 
           <!-- Фото 7 -->
-          <figure class="gallery-card" data-img="images/photo-7.jpg" data-caption="Бесконечно дорожим каждой минутой, проведённой вместе.">
+          <figure class="polaroid-card" data-index="6" data-img="images/photo-7.jpg" data-caption="Новогодняя сказка, которую ты каждый год создавала для нас.">
+            <div class="polaroid-tape"></div>
             <div class="photo-frame">
-              <div class="photo-placeholder" aria-hidden="true">
-                <svg class="placeholder-tulip" viewBox="0 0 32 32" fill="none" stroke="currentColor">
-                  <path d="M16 6 C13 11 12 16 16 20 C20 16 19 11 16 6 Z" stroke-width="1.2"/>
-                  <path d="M16 20 C12 20 8 16 9 10 C12 12 14 16 16 17" stroke-width="1.2"/>
-                  <path d="M16 20 C20 20 24 16 23 10 C20 12 18 16 16 17" stroke-width="1.2"/>
-                  <path d="M16 20 L16 29" stroke-width="1.2"/>
-                </svg>
-                <span class="placeholder-label">Семейное фото №7</span>
-              </div>
-              <img src="images/photo-7.jpg" alt="Всегда рядом" loading="lazy" class="gallery-img">
+              <img src="images/photo-7.jpg" alt="У новогодней ёлочки" loading="lazy" decoding="async" class="gallery-img">
+              <div class="polaroid-shimmer" aria-hidden="true"></div>
             </div>
-            <figcaption class="gallery-caption">Бесконечно дорожим каждой минутой, проведённой вместе.</figcaption>
+            <figcaption class="polaroid-footer">
+              <span class="polaroid-stamp">07</span>
+              <p class="polaroid-caption">Новогодняя сказка, подаренная твоим сердцем.</p>
+              <span class="polaroid-heart">🎄</span>
+            </figcaption>
+          </figure>
+
+          <!-- Фото 8 -->
+          <figure class="polaroid-card" data-index="7" data-img="images/photo-8.jpg" data-caption="Золотая осень и радость от каждой совместной прогулки.">
+            <div class="polaroid-tape"></div>
+            <div class="photo-frame">
+              <img src="images/photo-8.jpg" alt="Осенний букет листьев" loading="lazy" decoding="async" class="gallery-img">
+              <div class="polaroid-shimmer" aria-hidden="true"></div>
+            </div>
+            <figcaption class="polaroid-footer">
+              <span class="polaroid-stamp">08</span>
+              <p class="polaroid-caption">Золотая осень и радость от каждой прогулки.</p>
+              <span class="polaroid-heart">🍁</span>
+            </figcaption>
+          </figure>
+
+          <!-- Фото 9 -->
+          <figure class="polaroid-card" data-index="8" data-img="images/photo-9.jpg" data-caption="Морские каникулы, солнце и тепло твоих объятий.">
+            <div class="polaroid-tape"></div>
+            <div class="photo-frame">
+              <img src="images/photo-9.jpg" alt="Отдых у моря" loading="lazy" decoding="async" class="gallery-img">
+              <div class="polaroid-shimmer" aria-hidden="true"></div>
+            </div>
+            <figcaption class="polaroid-footer">
+              <span class="polaroid-stamp">09</span>
+              <p class="polaroid-caption">Морские каникулы, солнце и твоя забота.</p>
+              <span class="polaroid-heart">🌊</span>
+            </figcaption>
+          </figure>
+
+          <!-- Фото 10 -->
+          <figure class="polaroid-card" data-index="9" data-img="images/photo-10.jpg" data-caption="Твоя естественная красота, женственность и лучезарный взгляд.">
+            <div class="polaroid-tape"></div>
+            <div class="photo-frame">
+              <img src="images/photo-10.jpg" alt="Мама на сеновале" loading="lazy" decoding="async" class="gallery-img">
+              <div class="polaroid-shimmer" aria-hidden="true"></div>
+            </div>
+            <figcaption class="polaroid-footer">
+              <span class="polaroid-stamp">10</span>
+              <p class="polaroid-caption">Твоя естественная красота и лучезарный взгляд.</p>
+              <span class="polaroid-heart">🌸</span>
+            </figcaption>
+          </figure>
+
+          <!-- Фото 11 -->
+          <figure class="polaroid-card" data-index="10" data-img="images/photo-11.jpg" data-caption="Ты прекраснее самых нежных цветов на свете.">
+            <div class="polaroid-tape"></div>
+            <div class="photo-frame">
+              <img src="images/photo-11.jpg" alt="Мама с люпинами на закате" loading="lazy" decoding="async" class="gallery-img">
+              <div class="polaroid-shimmer" aria-hidden="true"></div>
+            </div>
+            <figcaption class="polaroid-footer">
+              <span class="polaroid-stamp">11</span>
+              <p class="polaroid-caption">Ты прекраснее самых нежных цветов на свете.</p>
+              <span class="polaroid-heart">💐</span>
+            </figcaption>
+          </figure>
+
+          <!-- Фото 12 -->
+          <figure class="polaroid-card" data-index="11" data-img="images/photo-12.jpg" data-caption="Наша королева — самая добрая, мудрая и вдохновляющая.">
+            <div class="polaroid-tape"></div>
+            <div class="photo-frame">
+              <img src="images/photo-12.jpg" alt="Мама с осенним венком" loading="lazy" decoding="async" class="gallery-img">
+              <div class="polaroid-shimmer" aria-hidden="true"></div>
+            </div>
+            <figcaption class="polaroid-footer">
+              <span class="polaroid-stamp">12</span>
+              <p class="polaroid-caption">Наша королева — самая добрая и мудрая.</p>
+              <span class="polaroid-heart">👑</span>
+            </figcaption>
+          </figure>
+
+          <!-- Фото 13 -->
+          <figure class="polaroid-card" data-index="12" data-img="images/photo-13.jpg" data-caption="Твоя утончённость, грация и свет, озаряющий всё вокруг.">
+            <div class="polaroid-tape"></div>
+            <div class="photo-frame">
+              <img src="images/photo-13.jpg" alt="Мама на террасе у моря" loading="lazy" decoding="async" class="gallery-img">
+              <div class="polaroid-shimmer" aria-hidden="true"></div>
+            </div>
+            <figcaption class="polaroid-footer">
+              <span class="polaroid-stamp">13</span>
+              <p class="polaroid-caption">Твоя грация и свет, озаряющий всё вокруг.</p>
+              <span class="polaroid-heart">🕊️</span>
+            </figcaption>
+          </figure>
+
+          <!-- Фото 14 -->
+          <figure class="polaroid-card" data-index="13" data-img="images/photo-14.jpg" data-caption="Годы идут, мы растём, но ты всегда остаёшься самым близким человеком.">
+            <div class="polaroid-tape"></div>
+            <div class="photo-frame">
+              <img src="images/photo-14.jpg" alt="Мама с сыном" loading="lazy" decoding="async" class="gallery-img">
+              <div class="polaroid-shimmer" aria-hidden="true"></div>
+            </div>
+            <figcaption class="polaroid-footer">
+              <span class="polaroid-stamp">14</span>
+              <p class="polaroid-caption">Мы растём, но ты всегда самый близкий человек.</p>
+              <span class="polaroid-heart">🤝</span>
+            </figcaption>
+          </figure>
+
+          <!-- Фото 15 -->
+          <figure class="polaroid-card" data-index="14" data-img="images/photo-15.jpg" data-caption="Главные победы и важные даты всегда рядом с тобой.">
+            <div class="polaroid-tape"></div>
+            <div class="photo-frame">
+              <img src="images/photo-15.jpg" alt="18-летие с мамой у моря" loading="lazy" decoding="async" class="gallery-img">
+              <div class="polaroid-shimmer" aria-hidden="true"></div>
+            </div>
+            <figcaption class="polaroid-footer">
+              <span class="polaroid-stamp">15</span>
+              <p class="polaroid-caption">Важные даты и победы разделяем только с тобой.</p>
+              <span class="polaroid-heart">🎉</span>
+            </figcaption>
+          </figure>
+
+          <!-- Фото 16 -->
+          <figure class="polaroid-card" data-index="15" data-img="images/photo-16.jpg" data-caption="Самая лучшая, самая любимая и незаменимая мама на свете!">
+            <div class="polaroid-tape"></div>
+            <div class="photo-frame">
+              <img src="images/photo-16.jpg" alt="Любимая мама" loading="lazy" decoding="async" class="gallery-img">
+              <div class="polaroid-shimmer" aria-hidden="true"></div>
+            </div>
+            <figcaption class="polaroid-footer">
+              <span class="polaroid-stamp">16</span>
+              <p class="polaroid-caption">Самая лучшая и незаменимая мама на свете!</p>
+              <span class="polaroid-heart">💖</span>
+            </figcaption>
           </figure>
 
         </div>
@@ -476,11 +579,11 @@
           
           <div class="final-tulip-decor" aria-hidden="true">
             <svg class="decor-tulip-svg" viewBox="0 0 36 36" fill="none" stroke="currentColor">
-              <path d="M18 6 C15 11 14 17 18 22 C22 17 21 11 18 6 Z" stroke-width="1.3" stroke-linecap="round"/>
-              <path d="M18 22 C13 22 9 17 10 11 C13 13 16 17 18 19" stroke-width="1.3" stroke-linecap="round"/>
-              <path d="M18 22 C23 22 27 17 26 11 C23 13 20 17 18 19" stroke-width="1.3" stroke-linecap="round"/>
-              <path d="M18 22 L18 32" stroke-width="1.3" stroke-linecap="round"/>
-              <path d="M18 28 C14 27 12 24 13 21" stroke-width="1.2" stroke-linecap="round"/>
+              <path d="M18 6 C15 11 14 17 18 22 C22 17 21 11 18 6 Z" stroke-width="1.4" fill="rgba(244, 63, 94, 0.25)" stroke-linecap="round"/>
+              <path d="M18 22 C13 22 9 17 10 11 C13 13 16 17 18 19" stroke-width="1.4" stroke-linecap="round"/>
+              <path d="M18 22 C23 22 27 17 26 11 C23 13 20 17 18 19" stroke-width="1.4" stroke-linecap="round"/>
+              <path d="M18 22 L18 32" stroke-width="1.4" stroke-linecap="round"/>
+              <path d="M18 28 C14 27 12 24 13 21" stroke-width="1.3" stroke-linecap="round"/>
             </svg>
           </div>
 
@@ -502,7 +605,7 @@
             
             <button type="button" class="btn-hug" id="btnHug" aria-label="Отправить маме объятие">
               <span class="btn-hug-glow" aria-hidden="true"></span>
-              <svg class="btn-hug-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <svg class="btn-hug-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
               <span class="btn-hug-text">Отправить объятие</span>
@@ -525,7 +628,7 @@
 
         <!-- Подвал -->
         <footer class="app-footer">
-          <p class="footer-note">Создано с нежностью специально ко Дню матери</p>
+          <p class="footer-note">Создано с бесконечной любовью специально ко Дню матери</p>
         </footer>
 
       </section>
@@ -539,18 +642,38 @@
   <div class="hug-particles-container" id="hugParticlesContainer" aria-hidden="true"></div>
 
 
-  <!-- ЛАЙТБОКС (ПРОСМОТР ФОТОГРАФИЙ НА ВЕСЬ ЭКРАН) -->
+  <!-- УЛУЧШЕННЫЙ ЛАЙТБОКС С НАВИГАЦИЕЙ И СВАЙПАМИ -->
   <div class="lightbox-modal" id="lightboxModal" role="dialog" aria-modal="true" aria-label="Просмотр фотографии" hidden>
     <div class="lightbox-backdrop" id="lightboxBackdrop"></div>
     <div class="lightbox-content">
-      <button type="button" class="lightbox-close" id="lightboxClose" aria-label="Закрыть просмотр">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-          <path d="M18 6L6 18M6 6l12 12" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </button>
-      <div class="lightbox-image-box">
-        <img src="" alt="" class="lightbox-img" id="lightboxImg">
+      
+      <div class="lightbox-top-bar">
+        <span class="lightbox-counter" id="lightboxCounter">01 / 16</span>
+        <button type="button" class="lightbox-close" id="lightboxClose" aria-label="Закрыть просмотр">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M18 6L6 18M6 6l12 12" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
       </div>
+
+      <div class="lightbox-stage">
+        <button type="button" class="lightbox-arrow arrow-prev" id="lightboxPrev" aria-label="Предыдущее фото">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+            <path d="M15 19l-7-7 7-7" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+
+        <div class="lightbox-image-box" id="lightboxImageBox">
+          <img src="" alt="" class="lightbox-img" id="lightboxImg">
+        </div>
+
+        <button type="button" class="lightbox-arrow arrow-next" id="lightboxNext" aria-label="Следующее фото">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+            <path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </div>
+
       <p class="lightbox-caption" id="lightboxCaption"></p>
     </div>
   </div>
