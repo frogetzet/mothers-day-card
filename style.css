@@ -1,0 +1,1211 @@
+/* ==========================================================================
+   СТИЛИ САЙТА-ОТКРЫТКИ КО ДНЮ МАТЕРИ
+   Стиль: Строгий дорогой editorial-минимализм, Mobile-First
+   ========================================================================== */
+
+:root {
+  /* Цветовая палитра */
+  --bg-primary: #FAF9F6;           /* Тёплый молочно-белый */
+  --bg-card: rgba(255, 255, 255, 0.88);
+  --bg-card-solid: #FFFFFF;
+  --bg-desktop: #F2EFE9;          /* Мягкий нейтральный фон для десктопа */
+
+  --text-main: #2C3038;            /* Глубокий графитовый */
+  --text-muted: #64748B;           /* Приглушённый серо-голубой */
+  --text-light: #94A3B8;           /* Деликатный светлый */
+
+  /* Пастельные акценты */
+  --accent-blue-soft: #E3F2FD;     /* Нежный небесно-голубой */
+  --accent-blue-tint: #B3E5FC;     /* Свежий акцент */
+  --accent-pink-soft: #FCE4EC;     /* Нежно-розовый */
+  --accent-pink-tint: #F8BBD0;     /* Пастельный розовый */
+  --accent-rose: #E2A9B2;          /* Тон розы для печати */
+
+  /* Границы и тени */
+  --border-delicate: rgba(226, 232, 240, 0.85);
+  --border-light: rgba(241, 245, 249, 0.8);
+  --shadow-editorial: 0 10px 30px -5px rgba(44, 48, 56, 0.05), 0 4px 12px -2px rgba(44, 48, 56, 0.02);
+  --shadow-hover: 0 16px 36px -6px rgba(44, 48, 56, 0.08);
+  --shadow-envelope: 0 18px 45px -8px rgba(44, 48, 56, 0.1);
+
+  /* Типографика */
+  --font-serif: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  --font-sans: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+  /* Радиусы */
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-pill: 9999px;
+
+  /* Переходы */
+  --ease-editorial: cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* Сброс и базовые правила */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  background-color: var(--bg-desktop);
+  text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--font-sans);
+  color: var(--text-main);
+  background-color: var(--bg-desktop);
+  line-height: 1.65;
+  font-weight: 400;
+  overflow-x: hidden;
+  position: relative;
+  min-height: 100vh;
+}
+
+/* ==========================================================================
+   РАЗМЫТЫЕ ФОНОВЫЕ MESH-ПЯТНА
+   ========================================================================== */
+.ambient-mesh {
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(80px);
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.55;
+  animation: meshDrift 18s ease-in-out infinite alternate;
+}
+
+.mesh-1 {
+  top: -10%;
+  left: -15%;
+  width: 70vw;
+  max-width: 500px;
+  height: 70vw;
+  max-height: 500px;
+  background: radial-gradient(circle, var(--accent-pink-soft) 0%, rgba(252, 228, 236, 0) 70%);
+}
+
+.mesh-2 {
+  top: 40%;
+  right: -20%;
+  width: 75vw;
+  max-width: 550px;
+  height: 75vw;
+  max-height: 550px;
+  background: radial-gradient(circle, var(--accent-blue-soft) 0%, rgba(227, 242, 253, 0) 70%);
+  animation-duration: 22s;
+  animation-direction: alternate-reverse;
+}
+
+.mesh-3 {
+  bottom: 5%;
+  left: -10%;
+  width: 65vw;
+  max-width: 480px;
+  height: 65vw;
+  max-height: 480px;
+  background: radial-gradient(circle, #FFF0F5 0%, rgba(255, 240, 245, 0) 70%);
+  animation-duration: 26s;
+}
+
+@keyframes meshDrift {
+  0% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(25px, -20px, 0) scale(1.06); }
+  100% { transform: translate3d(-15px, 25px, 0) scale(0.95); }
+}
+
+/* ==========================================================================
+   КАНВАС ПАДАЮЩИХ ЛЕПЕСТКОВ ТЮЛЬПАНОВ
+   ========================================================================== */
+.petals-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 20;
+  opacity: 0;
+  transition: opacity 1.5s ease-out;
+}
+
+.petals-canvas.active {
+  opacity: 1;
+}
+
+/* ==========================================================================
+   ГЛАВНЫЙ КОЛОНОЧНЫЙ КОНТЕЙНЕР (MOBILE-FIRST)
+   ========================================================================== */
+.app-container {
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
+  min-height: 100vh;
+  background-color: var(--bg-primary);
+  position: relative;
+  z-index: 2;
+  box-shadow: 0 0 60px rgba(44, 48, 56, 0.05);
+  display: flex;
+  flex-direction: column;
+}
+
+/* ==========================================================================
+   1. ПЕРВЫЙ ЭКРАН (100dvh): ИНТЕРАКТИВНЫЙ КОНВЕРТ
+   ========================================================================== */
+.screen-envelope {
+  min-height: 100vh;
+  min-height: 100dvh;
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 30px 20px;
+  position: relative;
+  overflow: hidden;
+  user-select: none;
+  transition: opacity 0.8s ease;
+}
+
+.envelope-scene {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 36px;
+  transform: translateY(0);
+  transition: transform 0.6s var(--ease-editorial);
+}
+
+.envelope-wrapper {
+  position: relative;
+  width: 290px;
+  height: 195px;
+  cursor: pointer;
+  perspective: 1200px;
+  transition: transform 0.3s ease;
+}
+
+.envelope-wrapper:hover {
+  transform: translateY(-3px);
+}
+
+.envelope-wrapper:active {
+  transform: scale(0.98);
+}
+
+.envelope {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: #EFECE6;
+  border-radius: 6px;
+  box-shadow: var(--shadow-envelope);
+  transform-style: preserve-3d;
+}
+
+/* Задняя внутренняя стенка */
+.envelope-back {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #E8E4DD;
+  border-radius: 6px;
+  z-index: 1;
+}
+
+/* Письмо внутри конверта */
+.envelope-letter {
+  position: absolute;
+  top: 10px;
+  left: 15px;
+  width: 260px;
+  height: 175px;
+  background: #FFFFFF;
+  border-radius: 4px;
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  box-shadow: 0 4px 15px rgba(44, 48, 56, 0.04);
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  transition: transform 0.9s cubic-bezier(0.34, 1.25, 0.64, 1) 0.35s;
+}
+
+.letter-decor {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.tulip-svg-mini {
+  width: 28px;
+  height: 28px;
+  color: var(--accent-rose);
+  opacity: 0.85;
+}
+
+.letter-note {
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  font-style: italic;
+  color: var(--text-main);
+  letter-spacing: 0.02em;
+}
+
+/* Карманы конверта (нижний и боковые треугольники) */
+.envelope-pocket {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  border-left: 145px solid #F5F3ED;
+  border-right: 145px solid #F0ECE4;
+  border-bottom: 110px solid #EAE6DE;
+  border-top: 85px solid transparent;
+  border-radius: 0 0 6px 6px;
+  z-index: 3;
+  pointer-events: none;
+}
+
+/* Верхний клапан (3D вращение) */
+.envelope-flap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  border-left: 145px solid transparent;
+  border-right: 145px solid transparent;
+  border-top: 110px solid #E4DFD6;
+  border-radius: 6px 6px 0 0;
+  transform-origin: top center;
+  transform: rotateX(0deg);
+  transition: transform 0.85s cubic-bezier(0.4, 0, 0.2, 1), z-index 0.15s 0.35s;
+  z-index: 4;
+  filter: drop-shadow(0 2px 4px rgba(44, 48, 56, 0.06));
+}
+
+/* Векторная восковая печать с тюльпаном */
+.wax-seal {
+  position: absolute;
+  top: 96px;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 52px;
+  height: 52px;
+  background: radial-gradient(circle, #EDBDC4 0%, #D898A1 100%);
+  border-radius: 50%;
+  box-shadow: 0 4px 14px rgba(216, 152, 161, 0.45), inset 0 2px 4px rgba(255, 255, 255, 0.5), inset 0 -2px 4px rgba(0, 0, 0, 0.12);
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.45s ease, transform 0.45s ease;
+  animation: sealGentlePulse 3.5s ease-in-out infinite;
+}
+
+.seal-inner {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px dashed rgba(255, 255, 255, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.seal-tulip-icon {
+  width: 22px;
+  height: 22px;
+  color: #FFFFFF;
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.15));
+}
+
+@keyframes sealGentlePulse {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); }
+  50% { transform: translate(-50%, -50%) scale(1.05); }
+}
+
+/* Подпись под конвертом */
+.envelope-caption {
+  text-align: center;
+  max-width: 260px;
+}
+
+.caption-title {
+  font-family: var(--font-serif);
+  font-size: 1.35rem;
+  color: var(--text-main);
+  letter-spacing: 0.01em;
+  margin-bottom: 6px;
+}
+
+.caption-action {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-weight: 500;
+  display: inline-block;
+  position: relative;
+  padding-bottom: 2px;
+}
+
+.caption-action::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 20%;
+  right: 20%;
+  height: 1px;
+  background-color: var(--accent-rose);
+  opacity: 0.6;
+}
+
+/* Состояние открытого конверта */
+.envelope-wrapper.opened .envelope-flap {
+  transform: rotateX(180deg);
+  z-index: 1;
+}
+
+.envelope-wrapper.opened .wax-seal {
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(1.2);
+  pointer-events: none;
+}
+
+.envelope-wrapper.opened .envelope-letter {
+  transform: translateY(-75px);
+}
+
+/* Индикатор скролла вниз */
+.scroll-down-indicator {
+  position: absolute;
+  bottom: 22px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.6s ease;
+  animation: bounceDown 2s infinite;
+}
+
+.scroll-down-indicator.visible {
+  opacity: 0.7;
+}
+
+.scroll-down-indicator svg {
+  width: 22px;
+  height: 22px;
+}
+
+@keyframes bounceDown {
+  0%, 20%, 50%, 80%, 100% { transform: translate(-50%, 0); }
+  40% { transform: translate(-50%, 6px); }
+  60% { transform: translate(-50%, 3px); }
+}
+
+/* ==========================================================================
+   ОСНОВНОЙ КОНТЕНТ (СКРЫТ ИЛИ РАСКРЫТ ПРИ ОТКРЫТИИ)
+   ========================================================================== */
+.card-content-flow {
+  display: flex;
+  flex-direction: column;
+  padding: 0 20px 60px;
+  gap: 70px;
+  position: relative;
+  z-index: 5;
+}
+
+/* Общий стиль появления секций при скролле */
+.reveal-item {
+  opacity: 0;
+  transform: translateY(26px);
+  transition: opacity 0.85s var(--ease-editorial), transform 0.85s var(--ease-editorial);
+}
+
+.reveal-item.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ==========================================================================
+   2. ГЛАВНЫЙ ЭКРАН ПОЗДРАВЛЕНИЯ
+   ========================================================================== */
+.section-hero {
+  padding-top: 40px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.hero-badge-wrap {
+  margin-bottom: 14px;
+}
+
+.editorial-date {
+  font-size: 0.78rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  font-weight: 500;
+  background: rgba(227, 242, 253, 0.45);
+  padding: 5px 14px;
+  border-radius: var(--radius-pill);
+  border: 1px solid rgba(179, 229, 252, 0.4);
+}
+
+.hero-title {
+  font-family: var(--font-serif);
+  font-size: 2.85rem;
+  line-height: 1.15;
+  font-weight: 500;
+  color: var(--text-main);
+  letter-spacing: -0.01em;
+  margin-bottom: 18px;
+}
+
+.floral-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 22px;
+}
+
+.divider-tulip {
+  width: 48px;
+  height: 28px;
+  color: var(--accent-rose);
+  opacity: 0.85;
+}
+
+.hero-intro {
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.hero-intro p {
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: var(--text-main);
+}
+
+.hero-intro p:last-child {
+  color: #475569;
+}
+
+/* ==========================================================================
+   3. БЛОК «10 ПРИЧИН, ПОЧЕМУ ТЫ ЛУЧШАЯ МАМА»
+   ========================================================================== */
+.section-reasons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.section-label {
+  display: inline-block;
+  font-size: 0.76rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--text-muted);
+  font-weight: 500;
+  margin-bottom: 6px;
+}
+
+.section-title {
+  font-family: var(--font-serif);
+  font-size: 2.1rem;
+  line-height: 1.25;
+  font-weight: 500;
+  color: var(--text-main);
+}
+
+.section-subtitle {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  margin-top: 6px;
+}
+
+/* Стек карточек */
+.deck-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+  height: 330px;
+  margin: 0 auto;
+  perspective: 1000px;
+  touch-action: pan-y;
+}
+
+.deck-stack {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.deck-card {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--bg-card-solid);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-delicate);
+  box-shadow: var(--shadow-editorial);
+  padding: 30px 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  transition: transform 0.45s var(--ease-editorial), opacity 0.45s ease;
+  will-change: transform, opacity;
+  user-select: none;
+}
+
+.card-inner {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.card-tulip-icon {
+  width: 26px;
+  height: 26px;
+  color: var(--accent-rose);
+  opacity: 0.9;
+}
+
+.card-number {
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  font-style: italic;
+  color: var(--text-muted);
+  letter-spacing: 0.05em;
+}
+
+.card-headline {
+  font-family: var(--font-serif);
+  font-size: 1.55rem;
+  line-height: 1.3;
+  color: var(--text-main);
+  margin-bottom: 14px;
+  font-weight: 500;
+}
+
+.card-text {
+  font-size: 0.98rem;
+  line-height: 1.68;
+  color: #475569;
+}
+
+/* Состояния карточек в стопке */
+.deck-card.active {
+  opacity: 1;
+  transform: translate3d(0, 0, 0) scale(1);
+  z-index: 10;
+  pointer-events: auto;
+}
+
+.deck-card.next {
+  opacity: 0.65;
+  transform: translate3d(0, 14px, 0) scale(0.95);
+  z-index: 9;
+  pointer-events: none;
+}
+
+.deck-card.next-2 {
+  opacity: 0.3;
+  transform: translate3d(0, 26px, 0) scale(0.90);
+  z-index: 8;
+  pointer-events: none;
+}
+
+.deck-card.hidden-back {
+  opacity: 0;
+  transform: translate3d(0, 36px, 0) scale(0.85);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.deck-card.swiped-left {
+  opacity: 0;
+  transform: translate3d(-120%, 15px, 0) rotate(-10deg) scale(0.9);
+  z-index: 11;
+  pointer-events: none;
+}
+
+.deck-card.swiped-right {
+  opacity: 0;
+  transform: translate3d(120%, 15px, 0) rotate(10deg) scale(0.9);
+  z-index: 11;
+  pointer-events: none;
+}
+
+/* Управление стопкой */
+.deck-navigation {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 380px;
+  margin-top: 26px;
+}
+
+.deck-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #FFFFFF;
+  border: 1px solid var(--border-delicate);
+  padding: 9px 18px;
+  border-radius: var(--radius-pill);
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: var(--text-main);
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: 0 2px 8px rgba(44, 48, 56, 0.04);
+}
+
+.deck-btn svg {
+  width: 16px;
+  height: 16px;
+}
+
+.deck-btn:hover:not(:disabled) {
+  background: var(--bg-primary);
+  border-color: #CBD5E1;
+  transform: translateY(-1px);
+}
+
+.deck-btn:active:not(:disabled) {
+  transform: scale(0.97);
+}
+
+.deck-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.deck-counter-badge {
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  color: var(--text-muted);
+  letter-spacing: 0.08em;
+}
+
+/* Прогресс-бар */
+.deck-progress-track {
+  width: 100%;
+  max-width: 320px;
+  height: 3px;
+  background-color: rgba(226, 232, 240, 0.6);
+  border-radius: var(--radius-pill);
+  margin-top: 18px;
+  overflow: hidden;
+}
+
+.deck-progress-bar {
+  height: 100%;
+  width: 10%;
+  background: linear-gradient(90deg, var(--accent-pink-tint), var(--accent-blue-tint));
+  border-radius: var(--radius-pill);
+  transition: width 0.35s ease;
+}
+
+.deck-hint-text {
+  font-size: 0.78rem;
+  color: var(--text-light);
+  margin-top: 10px;
+}
+
+/* ==========================================================================
+   4. ФОТОГАЛЕРЕЯ ВОСПОМИНАНИЙ (ВЕРТИКАЛЬНАЯ ЛЕНТА)
+   ========================================================================== */
+.section-gallery {
+  display: flex;
+  flex-direction: column;
+}
+
+.gallery-feed {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  margin-top: 8px;
+}
+
+.gallery-card {
+  background: var(--bg-card-solid);
+  border-radius: var(--radius-md);
+  padding: 12px 12px 18px;
+  border: 1px solid var(--border-delicate);
+  box-shadow: var(--shadow-editorial);
+  cursor: pointer;
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.gallery-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-hover);
+}
+
+.gallery-card:active {
+  transform: scale(0.99);
+}
+
+.photo-frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  border-radius: calc(var(--radius-md) - 4px);
+  overflow: hidden;
+  background: #FAF6F8;
+}
+
+/* Плейсхолдер на случай загрузки или отсутствия файла */
+.photo-placeholder {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: linear-gradient(145deg, #FDF8FA 0%, #F3F8FC 100%);
+  color: var(--text-muted);
+  z-index: 1;
+}
+
+.placeholder-tulip {
+  width: 36px;
+  height: 36px;
+  color: var(--accent-rose);
+  opacity: 0.7;
+}
+
+.placeholder-label {
+  font-size: 0.85rem;
+  letter-spacing: 0.05em;
+  font-family: var(--font-serif);
+}
+
+.gallery-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 2;
+  transition: transform 0.6s var(--ease-editorial);
+}
+
+.gallery-card:hover .gallery-img {
+  transform: scale(1.03);
+}
+
+.gallery-caption {
+  font-size: 0.92rem;
+  line-height: 1.55;
+  color: #475569;
+  text-align: center;
+  padding: 0 8px;
+}
+
+/* ==========================================================================
+   5. ФИНАЛЬНЫЙ БЛОК ОТ ВСЕЙ СЕМЬИ И КНОПКА «ОБНЯТЬ»
+   ========================================================================== */
+.section-final {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.final-card {
+  background: linear-gradient(180deg, #FFFFFF 0%, #FFFDFB 100%);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-delicate);
+  box-shadow: var(--shadow-editorial);
+  padding: 40px 24px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.final-tulip-decor {
+  margin-bottom: 14px;
+}
+
+.decor-tulip-svg {
+  width: 38px;
+  height: 38px;
+  color: var(--accent-rose);
+  opacity: 0.9;
+}
+
+.final-heading {
+  font-family: var(--font-serif);
+  font-size: 2.2rem;
+  line-height: 1.25;
+  font-weight: 500;
+  color: var(--text-main);
+  margin-bottom: 20px;
+}
+
+.final-letter-body {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  max-width: 380px;
+  font-size: 1.02rem;
+  line-height: 1.75;
+  color: #334155;
+}
+
+.final-signature {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.signature-lead {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 1.25rem;
+  color: var(--text-muted);
+}
+
+.signature-names {
+  font-family: var(--font-serif);
+  font-size: 1.45rem;
+  font-weight: 600;
+  color: var(--text-main);
+  letter-spacing: 0.02em;
+}
+
+/* Интерактивная зона объятий */
+.hug-interactive-box {
+  margin-top: 36px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+}
+
+.btn-hug {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: linear-gradient(135deg, #FFF0F5 0%, #FCE4EC 50%, #F8BBD0 100%);
+  color: var(--text-main);
+  border: 1px solid rgba(248, 187, 208, 0.7);
+  padding: 15px 32px;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  box-shadow: 0 8px 24px rgba(248, 187, 208, 0.35);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  overflow: hidden;
+}
+
+.btn-hug:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(248, 187, 208, 0.5);
+}
+
+.btn-hug:active {
+  transform: scale(0.96);
+  box-shadow: 0 4px 12px rgba(248, 187, 208, 0.25);
+}
+
+.btn-hug-icon {
+  width: 20px;
+  height: 20px;
+  color: #D85A7F;
+  transition: transform 0.3s ease;
+}
+
+.btn-hug:hover .btn-hug-icon {
+  transform: scale(1.15);
+}
+
+.hug-counter-wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.88rem;
+  color: var(--text-muted);
+}
+
+.counter-number {
+  font-weight: 600;
+  color: var(--text-main);
+  min-width: 16px;
+  display: inline-block;
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.counter-number.bounce {
+  transform: scale(1.35);
+}
+
+/* Мягкий тост */
+.hug-toast {
+  font-size: 0.84rem;
+  color: var(--text-muted);
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.35s ease, transform 0.35s ease;
+  pointer-events: none;
+  min-height: 20px;
+}
+
+.hug-toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Подвал */
+.app-footer {
+  text-align: center;
+  padding: 10px 0 20px;
+}
+
+.footer-note {
+  font-size: 0.78rem;
+  color: var(--text-light);
+  letter-spacing: 0.02em;
+}
+
+/* ==========================================================================
+   ВЗЛЕТАЮЩИЕ ТЮЛЬПАНЫ И СЕРДЕЧКИ (ОБЪЯТИЯ)
+   ========================================================================== */
+.hug-particles-container {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 100;
+  overflow: hidden;
+}
+
+.hug-particle {
+  position: absolute;
+  bottom: -40px;
+  pointer-events: none;
+  will-change: transform, opacity;
+  animation: floatUpParticle 3s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+.hug-particle svg {
+  display: block;
+}
+
+@keyframes floatUpParticle {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 0, 0) scale(0.4) rotate(0deg);
+  }
+  15% {
+    opacity: 0.95;
+    transform: translate3d(var(--drift-x-mid), -25vh, 0) scale(1) rotate(var(--rot-mid));
+  }
+  75% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(var(--drift-x-end), -105vh, 0) scale(0.85) rotate(var(--rot-end));
+  }
+}
+
+/* ==========================================================================
+   ЛАЙТБОКС (МОДАЛЬНОЕ ОКНО ПРОСМОТРА ФОТОГРАФИЙ)
+   ========================================================================== */
+.lightbox-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s ease;
+}
+
+.lightbox-modal.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.lightbox-backdrop {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(44, 48, 56, 0.75);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.lightbox-content {
+  position: relative;
+  z-index: 2;
+  width: 90%;
+  max-width: 440px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  transform: scale(0.95);
+  transition: transform 0.35s var(--ease-editorial);
+}
+
+.lightbox-modal.active .lightbox-content {
+  transform: scale(1);
+}
+
+.lightbox-close {
+  align-self: flex-end;
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  color: #FFFFFF;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.lightbox-close:hover {
+  background: rgba(255, 255, 255, 0.35);
+  transform: scale(1.08);
+}
+
+.lightbox-close:active {
+  transform: scale(0.92);
+}
+
+.lightbox-close svg {
+  width: 20px;
+  height: 20px;
+}
+
+.lightbox-image-box {
+  width: 100%;
+  max-height: 72vh;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  background: #111;
+}
+
+.lightbox-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.lightbox-caption {
+  color: #FAF9F6;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  text-align: center;
+  padding: 0 10px;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+/* ==========================================================================
+   АДАПТИВНОСТЬ И ОПТИМИЗАЦИЯ ДЛЯ УЗКИХ И ДЕСКТОПНЫХ ЭКРАНОВ
+   ========================================================================== */
+@media (max-width: 480px) {
+  .app-container {
+    box-shadow: none;
+    border-radius: 0;
+  }
+  
+  .hero-title {
+    font-size: 2.5rem;
+  }
+
+  .deck-wrapper {
+    height: 340px;
+  }
+
+  .deck-card {
+    padding: 24px 20px;
+  }
+
+  .card-headline {
+    font-size: 1.35rem;
+  }
+
+  .final-heading {
+    font-size: 1.95rem;
+  }
+}
+
+@media (max-height: 650px) {
+  .envelope-wrapper {
+    transform: scale(0.85);
+  }
+  
+  .envelope-scene {
+    gap: 20px;
+  }
+}

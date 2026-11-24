@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#FAF9F6">
+  <title>С Днём матери, любимая мамочка!</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Manrope:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Ambient Blurred Mesh Spot Accents -->
+  <div class="ambient-mesh mesh-1" aria-hidden="true"></div>
+  <div class="ambient-mesh mesh-2" aria-hidden="true"></div>
+  <div class="ambient-mesh mesh-3" aria-hidden="true"></div>
+
+  <!-- Petals Canvas (Starts falling when envelope opens) -->
+  <canvas id="petalsCanvas" class="petals-canvas" aria-hidden="true"></canvas>
+
+  <!-- Centered Mobile Column Layout -->
+  <main class="app-container">
+
+    <!-- 1. ПЕРВЫЙ ЭКРАН (100dvh): ИНТЕРАКТИВНЫЙ КОНВЕРТ -->
+    <section class="screen-envelope" id="envelopeScreen">
+      <div class="envelope-scene">
+        
+        <div class="envelope-wrapper" id="envelopeWrapper">
+          <div class="envelope" id="envelopeCard" role="button" tabindex="0" aria-label="Открыть поздравительный конверт">
+            
+            <!-- Задняя внутренняя стенка конверта -->
+            <div class="envelope-back"></div>
+
+            <!-- Письмо, выглядывающее из конверта -->
+            <div class="envelope-letter" id="envelopeLetter">
+              <div class="letter-decor">
+                <svg class="tulip-svg-mini" viewBox="0 0 32 32" fill="none" stroke="currentColor">
+                  <path d="M16 6 C13 11 12 16 16 20 C20 16 19 11 16 6 Z" stroke-width="1.2" stroke-linecap="round"/>
+                  <path d="M16 20 C12 20 8 16 9 10 C12 12 14 16 16 17" stroke-width="1.2" stroke-linecap="round"/>
+                  <path d="M16 20 C20 20 24 16 23 10 C20 12 18 16 16 17" stroke-width="1.2" stroke-linecap="round"/>
+                  <path d="M16 20 L16 29" stroke-width="1.2" stroke-linecap="round"/>
+                </svg>
+                <span class="letter-note">Любимой маме</span>
+              </div>
+            </div>
+
+            <!-- Нижний и боковые карманы конверта -->
+            <div class="envelope-pocket"></div>
+
+            <!-- Верхний клапан конверта (с 3D rotateX анимацией) -->
+            <div class="envelope-flap" id="envelopeFlap"></div>
+
+            <!-- Тонкая векторная печать в виде тюльпана -->
+            <div class="wax-seal" id="waxSeal" aria-hidden="true">
+              <div class="seal-inner">
+                <svg class="seal-tulip-icon" viewBox="0 0 32 32" fill="none" stroke="currentColor">
+                  <path d="M16 7 C14 11 13 15 16 18 C19 15 18 11 16 7 Z" stroke-width="1.3" stroke-linecap="round"/>
+                  <path d="M16 18 C12 18 9 14 10 10 C12 12 14 15 16 16" stroke-width="1.3" stroke-linecap="round"/>
+                  <path d="M16 18 C20 18 23 14 22 10 C20 12 18 15 16 16" stroke-width="1.3" stroke-linecap="round"/>
+                  <path d="M16 18 L16 27" stroke-width="1.3" stroke-linecap="round"/>
+                  <path d="M16 23 C13 22 11 20 12 17" stroke-width="1.2" stroke-linecap="round"/>
+                </svg>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="envelope-caption">
+          <p class="caption-title">Для самой лучшей мамы</p>
+          <p class="caption-action">Нажми, чтобы открыть</p>
+        </div>
+
+      </div>
+
+      <!-- Иконка плавного скролла вниз после открытия -->
+      <div class="scroll-down-indicator" id="scrollDownIndicator" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+    </section>
+
+
+    <!-- ОСНОВНОЙ КОНТЕНТ ОТКРЫТКИ -->
+    <div class="card-content-flow" id="cardContentFlow">
+
+      <!-- 2. ГЛАВНЫЙ ЭКРАН ПОЗДРАВЛЕНИЯ -->
+      <section class="section-hero reveal-item" id="mainGreeting">
+        
+        <div class="hero-badge-wrap">
+          <span class="editorial-date">24 ноября • День матери</span>
+        </div>
+
+        <h1 class="hero-title">С Днём матери!</h1>
+
+        <div class="floral-divider" aria-hidden="true">
+          <svg class="divider-tulip" viewBox="0 0 40 24" fill="none" stroke="currentColor">
+            <line x1="0" y1="12" x2="14" y2="12" stroke-width="0.8" stroke-opacity="0.4" />
+            <path d="M20 5 C18 8 17 12 20 15 C23 12 22 8 20 5 Z" stroke-width="1.2" stroke-linecap="round"/>
+            <path d="M20 15 C17 15 14 12 15 8 C17 10 19 13 20 13.5" stroke-width="1.1" stroke-linecap="round"/>
+            <path d="M20 15 C23 15 26 12 25 8 C23 10 21 13 20 13.5" stroke-width="1.1" stroke-linecap="round"/>
+            <line x1="20" y1="15" x2="20" y2="21" stroke-width="1.1" stroke-linecap="round"/>
+            <line x1="26" y1="12" x2="40" y2="12" stroke-width="0.8" stroke-opacity="0.4" />
+          </svg>
+        </div>
+
+        <div class="hero-intro">
+          <p>Мамочка, этот день — ещё один тёплый повод сказать то, о чём мы помним каждую секунду нашей жизни.</p>
+          <p>Спасибо за твою безграничную нежность, тепло родных рук и дом, в который всегда хочется возвращаться. Ты — наше самое главное счастье и самый надёжный свет.</p>
+        </div>
+
+      </section>
+
+
+      <!-- 3. БЛОК «10 ПРИЧИН, ПОЧЕМУ ТЫ ЛУЧШАЯ МАМА» -->
+      <section class="section-reasons reveal-item" id="reasonsBlock">
+        
+        <div class="section-header">
+          <span class="section-label">Искренние слова</span>
+          <h2 class="section-title">10 причин, почему ты — лучшая мама</h2>
+        </div>
+
+        <!-- Контейнер интерактивной стопки карточек -->
+        <div class="deck-wrapper">
+          <div class="deck-stack" id="reasonsStack">
+
+            <!-- Карточка 01 -->
+            <article class="deck-card active" data-index="0">
+              <div class="card-inner">
+                <div class="card-top">
+                  <svg class="card-tulip-icon" viewBox="0 0 32 32" fill="none" stroke="currentColor">
+                    <path d="M16 6 C13 11 12 16 16 20 C20 16 19 11 16 6 Z" stroke-width="1.2"/>
+                    <path d="M16 20 C12 20 8 16 9 10 C12 12 14 16 16 17" stroke-width="1.2"/>
+                    <path d="M16 20 C20 20 24 16 23 10 C20 12 18 16 16 17" stroke-width="1.2"/>
+                    <path d="M16 20 L16 29" stroke-width="1.2"/>
+                  </svg>
+                  <span class="card-number">01</span>
+                </div>
+                <h3 class="card-headline">Твои тёплые объятия</h3>
+                <p class="card-text">В твоих объятиях любая тревога растворяется без следа, а мир вокруг снова становится уютным, безопасным и удивительно светлым местом.</p>
+              </div>
+            </article>
+
+            <!-- Карточка 02 -->
+            <article class="deck-card" data-index="1">
+              <div class="card-inner">
+                <div class="card-top">
+                  <svg class="card-tulip-icon" viewBox="0 0 32 32" fill="none" stroke="currentColor">
+                    <path d="M16 6 C13 11 12 16 16 20 C20 16 19 11 16 6 Z" stroke-width="1.2"/>
+                    <path d="M16 20 C12 20 8 16 9 10 C12 12 14 16 16 17" stroke-width="1.2"/>
+                    <path d="M16 20 C20 20 24 16 23 10 C20 12 18 16 16 17" stroke-width="1.2"/>
+                    <path d="M16 20 L16 29" stroke-width="1.2"/>
+                  </svg>
+                  <span class="card-number">02</span>
+                </div>
+                <h3 class="card-headline">Умение чувствовать сердце</h3>
+                <p class="card-text">Ты всегда знаешь, что у нас на душе, без единого лишнего слова. Твоя материнская интуиция и чуткость — настоящее чудо, которое бережёт нас каждый день.</p>
+              </div>
+            </article>
+
+            <!-- Карточка 03 -->
+            <article class="deck-card" data-index="2">
+              <div class="card-inner">
+                <div class="card-top">
+                  <svg class="card-tulip-icon" viewBox="0 0 32 32" fill="none" stroke="currentColor">
+                    <path d="M16 6 C13 11 12 16 16 20 C20 16 19 11 16 6 Z" stroke-width="1.2"/>
+                    <path d="M16 20 C12 20 8 16 9 10 C12 12 14 16 16 17" stroke-width="1.2"/>
+                    <path d="M16 20 C20 20 24 16 23 10 C20 12 18 16 16 17" stroke-width="1.2"/>
+                    <path d="M16 20 L16 29" stroke-width="1.2"/>
+                  </svg>
+                  <span class="card-number">03</span>
+                </div>
+                <h3 class="card-headline">Неповторимый уют дома</h3>
+                <p class="card-text">Где бы мы ни находились, воспоминания о твоём доме, запахе свежего чая и звуке твоего голоса всегда согревают и возвращают ощущение истинного покоя.</p>
+              </div>
+            </article>
+
+            <!-- Карточка 04 -->
+            <article class="deck-card" data-index="3">
+              <div class="card-inner">
+                <div class="card-top">
+                  <svg class="card-tulip-icon" viewBox="0 0 32 32" fill="none" stroke="currentColor">
+                    <path d="M16 6 C13 11 12 16 16 20 C20 16 19 11 16 6 Z" stroke-width="1.2"/>
+                    <path d="M16 20 C12 20 8 16 9 10 C12 12 14 16 16 17" stroke-width="1.2"/>
+                    <path d="M16 20 C20 20 24 16 23 10 C20 12 18 16 16 17" stroke-width="1.2"/>
+                    <path d="M16 20 L16 29" stroke-width="1.2"/>
+                  </svg>
+                  <span class="card-number">04</span>
+                </div>
+                <h3 class="card-headline">Вера, которая окрыляет</h3>
+                <p class="card-text">Даже когда опускаются руки, твоя безусловная вера в наши силы помогает расправить плечи и смело двигаться вперёд, несмотря на любые преграды.</p>
+              </div>
+            </article>
+
+            <!-- Карточка 05 -->
+            <article class="deck-card" data-index="4">
+              <div class="card-inner">
+                <div class="card-top">
+                  <svg class="card-tulip-icon" viewBox="0 0 32 32" fill="none" stroke="currentColor">
+                    <path d="M16 6 C13 11 12 16 16 20 C20 16 19 11 16 6 Z" stroke-width="1.2"/>
+                    <path d="M16 20 C12 20 8 16 9 10 C12 12 14 16 16 17" stroke-width="1.2"/>
+                    <path d="M16 20 C20 20 24 16 23 10 C20 12 18 16 16 17" stroke-width="1.2"/>
+                    <path d="M16 20 L16 29" stroke-width="1.2"/>
+                  </svg>
+                  <span class="card-number">05</span>
+                </div>
+                <h3 class="card-headline">Твоя мягкая мудрость</h3>
+                <p class="card-text">Твои советы всегда деликатны, точны и наполнены искренней любовью. Ты умеешь направлять мягко, без упрёков и наставлений, сохраняя доверие.</p>
+              </div>
+            </article>
+
+            <!-- Карточка 06 -->
+            <article class="deck-card" data-index="5">
+              <div class="card-inner">
+                <div class="card-top">
+                  <svg class="card-tulip-icon" viewBox="0 0 32 32" fill="none" stroke="currentColor">
+                    <path d="M16 6 C13 11 12 16 16 20 C20 16 19 11 16 6 Z" stroke-width="1.2"/>
+                    <path d="M16 20 C12 20 8 16 9 10 C12 12 14 16 16 17" stroke-width="1.2"/>
+                    <path d="M16 20 C20 20 24 16 23 10 C20 12 18 16 16 17" stroke-width="1.2"/>
+                    <path d="M16 20 L16 29" stroke-width="1.2"/>
+                  </svg>
+                  <span class="card-number">06</span>
+                </div>
+                <h3 class="card-headline">Забота в каждой мелочи</h3>
+                <p class="card-text">Ты помнишь о наших предпочтениях, настроениях и сокровенных мечтах. Твоя забота проявляется в тысячах незаметных, но бесценных деталей.</p>
+              </div>
+            </article>
+
+            <!-- Карточка 07 -->
+            <article class="deck-card" data-index="6">
+              <div class="card-inner">
+                <div class="card-top">
+                  <svg class="card-tulip-icon" viewBox="0 0 32 32" fill="none" stroke="currentColor">
+                    <path d="M16 6 C13 11 12 16 16 20 C20 16 19 11 16 6 Z" stroke-width="1.2"/>
+                    <path d="M16 20 C12 20 8 16 9 10 C12 12 14 16 16 17" stroke-width="1.2"/>
+                    <path d="M16 20 C20 20 24 16 23 10 C20 12 18 16 16 17" stroke-width="1.2"/>
+                    <path d="M16 20 L16 29" stroke-width="1.2"/>
+                  </svg>
+                  <span class="card-number">07</span>
+                </div>
+                <h3 class="card-headline">Твоя светлая улыбка</h3>
+                <p class="card-text">Когда ты искренне улыбаешься, всё вокруг преображается. Твой взгляд способен прогнать любые тучи и наполнить комнату чистой радостью.</p>
+              </div>
+            </article>
+
+            <!-- Карточка 08 -->
+            <article class="deck-card" data-index="7">
+              <div class="card-inner">
+                <div class="card-top">
+                  <svg class="card-tulip-icon" viewBox="0 0 32 32" fill="none" stroke="currentColor">
+                    <path d="M16 6 C13 11 12 16 16 20 C20 16 19 11 16 6 Z" stroke-width="1.2"/>
+                    <path d="M16 20 C12 20 8 16 9 10 C12 12 14 16 16 17" stroke-width="1.2"/>
+                    <path d="M16 20 C20 20 24 16 23 10 C20 12 18 16 16 17" stroke-width="1.2"/>
+                    <path d="M16 20 L16 29" stroke-width="1.2"/>
+                  </svg>
+                  <span class="card-number">08</span>
+                </div>
+                <h3 class="card-headline">Безграничное терпение</h3>
+                <p class="card-text">Твоему душевному спокойствию, щедрости и умению прощать можно учиться бесконечно. Ты являешься для всех нас самым главным жизненным ориентиром.</p>
+              </div>
+            </article>
+
+            <!-- Карточка 09 -->
+            <article class="deck-card" data-index="8">
+              <div class="card-inner">
+                <div class="card-top">
+                  <svg class="card-tulip-icon" viewBox="0 0 32 32" fill="none" stroke="currentColor">
+                    <path d="M16 6 C13 11 12 16 16 20 C20 16 19 11 16 6 Z" stroke-width="1.2"/>
+                    <path d="M16 20 C12 20 8 16 9 10 C12 12 14 16 16 17" stroke-width="1.2"/>
+                    <path d="M16 20 C20 20 24 16 23 10 C20 12 18 16 16 17" stroke-width="1.2"/>
+                    <path d="M16 20 L16 29" stroke-width="1.2"/>
+                  </svg>
+                  <span class="card-number">09</span>
+                </div>
+                <h3 class="card-headline">Любовь ко всей семье</h3>
+                <p class="card-text">Ты делишься душевным теплом со всей семьёй без остатка — и даже собака Мася всегда знает, что самые добрые и ласковые поглаживания только у тебя 🐾.</p>
+              </div>
+            </article>
+
+            <!-- Карточка 10 -->
+            <article class="deck-card" data-index="9">
+              <div class="card-inner">
+                <div class="card-top">
+                  <svg class="card-tulip-icon" viewBox="0 0 32 32" fill="none" stroke="currentColor">
+                    <path d="M16 6 C13 11 12 16 16 20 C20 16 19 11 16 6 Z" stroke-width="1.2"/>
+                    <path d="M16 20 C12 20 8 16 9 10 C12 12 14 16 16 17" stroke-width="1.2"/>
+                    <path d="M16 20 C20 20 24 16 23 10 C20 12 18 16 16 17" stroke-width="1.2"/>
+                    <path d="M16 20 L16 29" stroke-width="1.2"/>
+                  </svg>
+                  <span class="card-number">10</span>
+                </div>
+                <h3 class="card-headline">Ты — сердце нашей семьи</h3>
+                <p class="card-text">С тобой связано всё самое светлое, чистое и глубокое в нашей жизни. Мы безмерно гордимся и бесконечно счастливы тем, что ты — наша мама.</p>
+              </div>
+            </article>
+
+          </div>
+        </div>
+
+        <!-- Навигация стопки карточек -->
+        <div class="deck-navigation">
+          <button type="button" class="deck-btn" id="btnPrevReason" aria-label="Предыдущая причина" disabled>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M15 19l-7-7 7-7" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span>Назад</span>
+          </button>
+
+          <div class="deck-counter-badge">
+            <span id="reasonsCounter">01 / 10</span>
+          </div>
+
+          <button type="button" class="deck-btn" id="btnNextReason" aria-label="Следующая причина">
+            <span>Дальше</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+        </div>
+
+        <!-- Тонкий прогресс-бар -->
+        <div class="deck-progress-track">
+          <div class="deck-progress-bar" id="reasonsProgressBar"></div>
+        </div>
+
+        <p class="deck-hint-text">Листай карточки свайпом влево/вправо</p>
+
+      </section>
+
+
+      <!-- 4. ФОТОГАЛЕРЕЯ ВОСПОМИНАНИЙ (5-10 ФОТОГРАФИЙ) -->
+      <section class="section-gallery reveal-item" id="gallerySection">
+        
+        <div class="section-header">
+          <span class="section-label">Наши моменты</span>
+          <h2 class="section-title">Галерея тёплых воспоминаний</h2>
+          <p class="section-subtitle">Мгновения, которые навсегда остаются в сердце</p>
+        </div>
+
+        <div class="gallery-feed" id="galleryFeed">
+
+          <!-- Фото 1 -->
+          <figure class="gallery-card" data-img="images/photo-1.jpg" data-caption="Моменты тихого счастья, которые мы бережём в сердце.">
+            <div class="photo-frame">
+              <div class="photo-placeholder" aria-hidden="true">
+                <svg class="placeholder-tulip" viewBox="0 0 32 32" fill="none" stroke="currentColor">
+                  <path d="M16 6 C13 11 12 16 16 20 C20 16 19 11 16 6 Z" stroke-width="1.2"/>
+                  <path d="M16 20 C12 20 8 16 9 10 C12 12 14 16 16 17" stroke-width="1.2"/>
+                  <path d="M16 20 C20 20 24 16 23 10 C20 12 18 16 16 17" stroke-width="1.2"/>
+                  <path d="M16 20 L16 29" stroke-width="1.2"/>
+                </svg>
+                <span class="placeholder-label">Семейное фото №1</span>
+              </div>
+              <img src="images/photo-1.jpg" alt="Моменты счастья" loading="lazy" class="gallery-img">
+            </div>
+            <figcaption class="gallery-caption">Моменты тихого счастья, которые мы бережём в сердце.</figcaption>
+          </figure>
+
+          <!-- Фото 2 -->
+          <figure class="gallery-card" data-img="images/photo-2.jpg" data-caption="Твоя улыбка — самый тёплый свет в нашем доме.">
+            <div class="photo-frame">
+              <div class="photo-placeholder" aria-hidden="true">
+                <svg class="placeholder-tulip" viewBox="0 0 32 32" fill="none" stroke="currentColor">
+                  <path d="M16 6 C13 11 12 16 16 20 C20 16 19 11 16 6 Z" stroke-width="1.2"/>
+                  <path d="M16 20 C12 20 8 16 9 10 C12 12 14 16 16 17" stroke-width="1.2"/>
+                  <path d="M16 20 C20 20 24 16 23 10 C20 12 18 16 16 17" stroke-width="1.2"/>
+                  <path d="M16 20 L16 29" stroke-width="1.2"/>
+                </svg>
+                <span class="placeholder-label">Семейное фото №2</span>
+              </div>
+              <img src="images/photo-2.jpg" alt="Твоя улыбка" loading="lazy" class="gallery-img">
+            </div>
+            <figcaption class="gallery-caption">Твоя улыбка — самый тёплый свет в нашем доме.</figcaption>
+          </figure>
+
+          <!-- Фото 3 -->
+          <figure class="gallery-card" data-img="images/photo-3.jpg" data-caption="Семейные дни, наполненные гармонией и спокойствием.">
+            <div class="photo-frame">
+              <div class="photo-placeholder" aria-hidden="true">
+                <svg class="placeholder-tulip" viewBox="0 0 32 32" fill="none" stroke="currentColor">
+                  <path d="M16 6 C13 11 12 16 16 20 C20 16 19 11 16 6 Z" stroke-width="1.2"/>
+                  <path d="M16 20 C12 20 8 16 9 10 C12 12 14 16 16 17" stroke-width="1.2"/>
+                  <path d="M16 20 C20 20 24 16 23 10 C20 12 18 16 16 17" stroke-width="1.2"/>
+                  <path d="M16 20 L16 29" stroke-width="1.2"/>
+                </svg>
+                <span class="placeholder-label">Семейное фото №3</span>
+              </div>
+              <img src="images/photo-3.jpg" alt="Семейный день" loading="lazy" class="gallery-img">
+            </div>
+            <figcaption class="gallery-caption">Семейные дни, наполненные гармонией и спокойствием.</figcaption>
+          </figure>
+
+          <!-- Фото 4 -->
+          <figure class="gallery-card" data-img="images/photo-4.jpg" data-caption="Рядом с тобой всегда легко, тепло и спокойно.">
+            <div class="photo-frame">
+              <div class="photo-placeholder" aria-hidden="true">
+                <svg class="placeholder-tulip" viewBox="0 0 32 32" fill="none" stroke="currentColor">
+                  <path d="M16 6 C13 11 12 16 16 20 C20 16 19 11 16 6 Z" stroke-width="1.2"/>
+                  <path d="M16 20 C12 20 8 16 9 10 C12 12 14 16 16 17" stroke-width="1.2"/>
+                  <path d="M16 20 C20 20 24 16 23 10 C20 12 18 16 16 17" stroke-width="1.2"/>
+                  <path d="M16 20 L16 29" stroke-width="1.2"/>
+                </svg>
+                <span class="placeholder-label">Семейное фото №4</span>
+              </div>
+              <img src="images/photo-4.jpg" alt="Тепло и покой" loading="lazy" class="gallery-img">
+            </div>
+            <figcaption class="gallery-caption">Рядом с тобой всегда легко, тепло и спокойно.</figcaption>
+          </figure>
+
+          <!-- Фото 5 -->
+          <figure class="gallery-card" data-img="images/photo-5.jpg" data-caption="Мася тоже знает, чьи руки самые ласковые 🐾">
+            <div class="photo-frame">
+              <div class="photo-placeholder" aria-hidden="true">
+                <svg class="placeholder-tulip" viewBox="0 0 32 32" fill="none" stroke="currentColor">
+                  <path d="M16 6 C13 11 12 16 16 20 C20 16 19 11 16 6 Z" stroke-width="1.2"/>
+                  <path d="M16 20 C12 20 8 16 9 10 C12 12 14 16 16 17" stroke-width="1.2"/>
+                  <path d="M16 20 C20 20 24 16 23 10 C20 12 18 16 16 17" stroke-width="1.2"/>
+                  <path d="M16 20 L16 29" stroke-width="1.2"/>
+                </svg>
+                <span class="placeholder-label">Семейное фото №5</span>
+              </div>
+              <img src="images/photo-5.jpg" alt="Мася шлёт привет" loading="lazy" class="gallery-img">
+            </div>
+            <figcaption class="gallery-caption">Мася тоже знает, чьи руки самые ласковые 🐾</figcaption>
+          </figure>
+
+          <!-- Фото 6 -->
+          <figure class="gallery-card" data-img="images/photo-6.jpg" data-caption="Праздники, которые становятся особенными только благодаря тебе.">
+            <div class="photo-frame">
+              <div class="photo-placeholder" aria-hidden="true">
+                <svg class="placeholder-tulip" viewBox="0 0 32 32" fill="none" stroke="currentColor">
+                  <path d="M16 6 C13 11 12 16 16 20 C20 16 19 11 16 6 Z" stroke-width="1.2"/>
+                  <path d="M16 20 C12 20 8 16 9 10 C12 12 14 16 16 17" stroke-width="1.2"/>
+                  <path d="M16 20 C20 20 24 16 23 10 C20 12 18 16 16 17" stroke-width="1.2"/>
+                  <path d="M16 20 L16 29" stroke-width="1.2"/>
+                </svg>
+                <span class="placeholder-label">Семейное фото №6</span>
+              </div>
+              <img src="images/photo-6.jpg" alt="Семейный праздник" loading="lazy" class="gallery-img">
+            </div>
+            <figcaption class="gallery-caption">Праздники, которые становятся особенными только благодаря тебе.</figcaption>
+          </figure>
+
+          <!-- Фото 7 -->
+          <figure class="gallery-card" data-img="images/photo-7.jpg" data-caption="Бесконечно дорожим каждой минутой, проведённой вместе.">
+            <div class="photo-frame">
+              <div class="photo-placeholder" aria-hidden="true">
+                <svg class="placeholder-tulip" viewBox="0 0 32 32" fill="none" stroke="currentColor">
+                  <path d="M16 6 C13 11 12 16 16 20 C20 16 19 11 16 6 Z" stroke-width="1.2"/>
+                  <path d="M16 20 C12 20 8 16 9 10 C12 12 14 16 16 17" stroke-width="1.2"/>
+                  <path d="M16 20 C20 20 24 16 23 10 C20 12 18 16 16 17" stroke-width="1.2"/>
+                  <path d="M16 20 L16 29" stroke-width="1.2"/>
+                </svg>
+                <span class="placeholder-label">Семейное фото №7</span>
+              </div>
+              <img src="images/photo-7.jpg" alt="Всегда рядом" loading="lazy" class="gallery-img">
+            </div>
+            <figcaption class="gallery-caption">Бесконечно дорожим каждой минутой, проведённой вместе.</figcaption>
+          </figure>
+
+        </div>
+
+      </section>
+
+
+      <!-- 5. ФИНАЛЬНЫЙ БЛОК ОТ ВСЕЙ СЕМЬИ И КНОПКА «ОБНЯТЬ» -->
+      <section class="section-final reveal-item" id="finalBlock">
+        
+        <div class="final-card">
+          
+          <div class="final-tulip-decor" aria-hidden="true">
+            <svg class="decor-tulip-svg" viewBox="0 0 36 36" fill="none" stroke="currentColor">
+              <path d="M18 6 C15 11 14 17 18 22 C22 17 21 11 18 6 Z" stroke-width="1.3" stroke-linecap="round"/>
+              <path d="M18 22 C13 22 9 17 10 11 C13 13 16 17 18 19" stroke-width="1.3" stroke-linecap="round"/>
+              <path d="M18 22 C23 22 27 17 26 11 C23 13 20 17 18 19" stroke-width="1.3" stroke-linecap="round"/>
+              <path d="M18 22 L18 32" stroke-width="1.3" stroke-linecap="round"/>
+              <path d="M18 28 C14 27 12 24 13 21" stroke-width="1.2" stroke-linecap="round"/>
+            </svg>
+          </div>
+
+          <h2 class="final-heading">С любовью и благодарностью</h2>
+
+          <div class="final-letter-body">
+            <p>Мамочка, спасибо за каждое объятие, за каждую сказку в детстве и за то, что твоё сердце всегда бьётся в унисон с нашими.</p>
+            <p>Мы обещаем беречь твой покой, почаще радовать тебя и делать всё, чтобы твои глаза сияли только от счастья.</p>
+            <p>Ты заслуживаешь самого прекрасного, спокойного и доброго мира вокруг!</p>
+          </div>
+
+          <div class="final-signature">
+            <span class="signature-lead">С бесконечной любовью,</span>
+            <span class="signature-names">твоя семья и Мася 🐾</span>
+          </div>
+
+          <!-- Интерактивная зона объятий -->
+          <div class="hug-interactive-box">
+            
+            <button type="button" class="btn-hug" id="btnHug" aria-label="Отправить маме объятие">
+              <span class="btn-hug-glow" aria-hidden="true"></span>
+              <svg class="btn-hug-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <span class="btn-hug-text">Отправить объятие</span>
+            </button>
+
+            <!-- Счётчик отправленных объятий -->
+            <div class="hug-counter-wrap">
+              <span class="counter-label">Объятий отправлено:</span>
+              <span class="counter-number" id="hugCounterNumber">0</span>
+            </div>
+
+            <!-- Всплывающее уведомление о тепле -->
+            <div class="hug-toast" id="hugToast" role="status" aria-live="polite">
+              Мама почувствовала твоё тепло 🤍
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- Подвал -->
+        <footer class="app-footer">
+          <p class="footer-note">Создано с нежностью специально ко Дню матери</p>
+        </footer>
+
+      </section>
+
+    </div>
+
+  </main>
+
+
+  <!-- КОНТЕЙНЕР ДЛЯ ВЗЛЕТАЮЩИХ ТЮЛЬПАНОВ И СЕРДЕЧЕК -->
+  <div class="hug-particles-container" id="hugParticlesContainer" aria-hidden="true"></div>
+
+
+  <!-- ЛАЙТБОКС (ПРОСМОТР ФОТОГРАФИЙ НА ВЕСЬ ЭКРАН) -->
+  <div class="lightbox-modal" id="lightboxModal" role="dialog" aria-modal="true" aria-label="Просмотр фотографии" hidden>
+    <div class="lightbox-backdrop" id="lightboxBackdrop"></div>
+    <div class="lightbox-content">
+      <button type="button" class="lightbox-close" id="lightboxClose" aria-label="Закрыть просмотр">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <path d="M18 6L6 18M6 6l12 12" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <div class="lightbox-image-box">
+        <img src="" alt="" class="lightbox-img" id="lightboxImg">
+      </div>
+      <p class="lightbox-caption" id="lightboxCaption"></p>
+    </div>
+  </div>
+
+
+  <!-- Скрипт логики -->
+  <script src="script.js"></script>
+</body>
+</html>
