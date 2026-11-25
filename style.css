@@ -404,6 +404,13 @@ body {
 }
 
 /* Состояние открытого конверта */
+.envelope-scene.is-opened {
+  transform: translateY(155px) scale(0.84);
+  opacity: 0.4;
+  pointer-events: none;
+  transition: transform 0.9s var(--ease-editorial) 0.25s, opacity 0.8s ease 0.25s;
+}
+
 .envelope-wrapper.opened .envelope-flap {
   transform: rotateX(180deg);
   z-index: 1;
@@ -411,39 +418,98 @@ body {
 
 .envelope-wrapper.opened .wax-seal {
   opacity: 0;
-  transform: translate(-50%, -50%) scale(1.2);
+  transform: translate(-50%, -50%) scale(1.25);
   pointer-events: none;
 }
 
 .envelope-wrapper.opened .envelope-letter {
-  transform: translateY(-80px);
+  transform: translateY(-95px);
+}
+
+.envelope-wrapper.opened + .envelope-caption {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+/* Выскакивающий лист поздравления на месте (без перемотки) */
+.opened-letter-sheet {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: calc(100% - 36px);
+  max-width: 420px;
+  background: linear-gradient(180deg, #FFFFFF 0%, #FFF7F9 100%);
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(251, 113, 133, 0.35);
+  box-shadow: 0 24px 60px rgba(244, 63, 94, 0.18), 0 8px 20px rgba(0, 0, 0, 0.05);
+  padding: 34px 24px 30px;
+  z-index: 12;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, -35%) scale(0.78);
+  transition: opacity 0.75s ease 0.38s, transform 0.9s var(--ease-spring) 0.38s;
+}
+
+.opened-letter-sheet.visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translate(-50%, -54%) scale(1);
+}
+
+.letter-sheet-inner {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.letter-line {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 0.7s ease, transform 0.7s var(--ease-editorial);
+  transition-delay: var(--line-delay, 0.2s);
+}
+
+.opened-letter-sheet.visible .letter-line {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 /* Индикатор скролла вниз */
 .scroll-down-indicator {
   position: absolute;
-  bottom: 20px;
+  bottom: 18px;
   left: 50%;
   transform: translateX(-50%);
-  width: 36px;
-  height: 36px;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
+  gap: 2px;
   color: var(--accent-rose);
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.6s ease;
-  animation: bounceDown 2s infinite;
+  cursor: pointer;
+  z-index: 15;
+  transition: opacity 0.6s ease 0.9s;
+  animation: bounceDown 2.2s infinite;
 }
 
 .scroll-down-indicator.visible {
-  opacity: 0.85;
+  opacity: 0.92;
+  pointer-events: auto;
+}
+
+.scroll-hint-label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
 }
 
 .scroll-down-indicator svg {
-  width: 24px;
-  height: 24px;
+  width: 22px;
+  height: 22px;
 }
 
 @keyframes bounceDown {
@@ -458,10 +524,24 @@ body {
 .card-content-flow {
   display: flex;
   flex-direction: column;
-  padding: 0 20px 60px;
+  padding: 28px 20px 60px;
   gap: 75px;
   position: relative;
   z-index: 5;
+}
+
+.opened-letter-sheet .hero-title {
+  font-size: 2.4rem;
+  margin-bottom: 14px;
+}
+
+.opened-letter-sheet .floral-divider {
+  margin-bottom: 12px;
+}
+
+.opened-letter-sheet .hero-intro p {
+  font-size: 0.98rem;
+  line-height: 1.62;
 }
 
 /* Плавное появление секций при скролле */
@@ -978,99 +1058,186 @@ body {
   letter-spacing: 0.02em;
 }
 
-/* Интерактивная зона объятий */
-.hug-interactive-box {
-  margin-top: 36px;
+/* Интерактивный расцветающий букет для мамы (без кнопок) */
+.bouquet-interactive-box {
+  margin-top: 34px;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 14px;
   width: 100%;
+  padding: 24px 14px 20px;
+  border-radius: var(--radius-md);
+  background: linear-gradient(180deg, rgba(255, 241, 244, 0.55) 0%, rgba(255, 255, 255, 0.9) 100%);
+  border: 1px dashed rgba(251, 113, 133, 0.45);
 }
 
-.btn-hug {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  background: linear-gradient(135deg, #F43F5E 0%, #FB7185 50%, #FDA4AF 100%);
-  color: #FFFFFF;
-  border: none;
-  padding: 16px 36px;
-  border-radius: var(--radius-pill);
-  font-family: var(--font-sans);
-  font-size: 1.05rem;
+.bouquet-prompt {
+  font-size: 0.9rem;
   font-weight: 600;
+  color: var(--accent-rose);
+  letter-spacing: 0.01em;
+}
+
+.bouquet-stage {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 4px;
+  padding-top: 34px;
+  min-height: 140px;
+  position: relative;
+}
+
+.bouquet-tulip {
+  position: relative;
+  width: 56px;
+  height: 92px;
   cursor: pointer;
-  box-shadow: 0 10px 30px rgba(244, 63, 94, 0.45);
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
-  overflow: hidden;
+  transform: translateY(var(--tulip-y, 0px)) rotate(var(--tulip-tilt, 0deg));
+  transform-origin: bottom center;
+  transition: transform 0.45s var(--ease-spring), filter 0.35s ease;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
-.btn-hug:hover {
-  transform: translateY(-3px) scale(1.02);
-  box-shadow: 0 14px 36px rgba(244, 63, 94, 0.6);
+.bouquet-tulip:hover {
+  transform: translateY(calc(var(--tulip-y, 0px) - 5px)) rotate(var(--tulip-tilt, 0deg)) scale(1.06);
 }
 
-.btn-hug:active {
-  transform: scale(0.96);
-  box-shadow: 0 4px 14px rgba(244, 63, 94, 0.3);
+.bouquet-tulip:active {
+  transform: translateY(var(--tulip-y, 0px)) rotate(var(--tulip-tilt, 0deg)) scale(0.95);
 }
 
-.btn-hug-icon {
-  width: 22px;
-  height: 22px;
-  fill: #FFFFFF;
-  color: #FFFFFF;
-  transition: transform 0.3s ease;
+.tulip-bloom-svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
 }
 
-.btn-hug:hover .btn-hug-icon {
-  transform: scale(1.2);
+/* Нераскрытый бутон: лепестки прижаты друг к другу */
+.bouquet-tulip .petal-left,
+.bouquet-tulip .petal-right,
+.bouquet-tulip .petal-center {
+  transform-box: fill-box;
+  transform-origin: bottom center;
+  transition: transform 0.65s var(--ease-spring), fill 0.45s ease, filter 0.45s ease;
 }
 
-.hug-counter-wrap {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 0.92rem;
+.bouquet-tulip .petal-left {
+  transform: rotate(10deg) scaleX(0.75);
+}
+
+.bouquet-tulip .petal-right {
+  transform: rotate(-10deg) scaleX(0.75);
+}
+
+.bouquet-tulip .petal-center {
+  transform: scale(0.88);
+}
+
+/* Лёгкое «дыхание» ещё не распустившихся бутонов */
+.bouquet-tulip:not(.bloomed) .tulip-head {
+  animation: budBreath 2.6s ease-in-out infinite;
+  transform-box: fill-box;
+  transform-origin: bottom center;
+}
+
+@keyframes budBreath {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.06); }
+}
+
+/* Распустившийся тюльпан */
+.bouquet-tulip.bloomed .petal-left {
+  transform: rotate(-18deg) scale(1.12);
+}
+
+.bouquet-tulip.bloomed .petal-right {
+  transform: rotate(18deg) scale(1.12);
+}
+
+.bouquet-tulip.bloomed .petal-center {
+  transform: scale(1.12) translateY(-2px);
+}
+
+.bouquet-tulip.bloomed .tulip-bloom-svg {
+  filter: drop-shadow(0 6px 14px rgba(244, 63, 94, 0.25));
+}
+
+/* Облачко-пожелание над цветком */
+.tulip-wish-pill {
+  position: absolute;
+  top: -28px;
+  left: 50%;
+  transform: translateX(-50%) translateY(8px) scale(0.7);
+  background: #FFFFFF;
+  color: var(--text-main);
+  font-family: var(--font-hand);
+  font-size: 1.05rem;
+  font-weight: 700;
+  padding: 2px 10px;
+  border-radius: var(--radius-pill);
+  border: 1px solid rgba(251, 113, 133, 0.4);
+  box-shadow: 0 4px 12px rgba(244, 63, 94, 0.14);
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.45s ease, transform 0.55s var(--ease-spring);
+  z-index: 6;
+}
+
+.bouquet-tulip.bloomed .tulip-wish-pill {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0) scale(1);
+}
+
+.bouquet-ribbon {
+  margin-top: -12px;
+  font-size: 1.6rem;
+  line-height: 1;
+  filter: drop-shadow(0 3px 6px rgba(244, 63, 94, 0.2));
+  transition: transform 0.5s var(--ease-spring);
+}
+
+.bouquet-interactive-box.all-bloomed .bouquet-ribbon {
+  transform: scale(1.18);
+}
+
+.bouquet-status {
+  font-size: 0.88rem;
   font-weight: 500;
   color: var(--text-muted);
 }
 
-.counter-number {
+.bouquet-status span {
   font-weight: 700;
   color: var(--accent-rose);
-  font-size: 1.1rem;
-  min-width: 18px;
-  display: inline-block;
-  transition: transform 0.25s var(--ease-spring);
 }
 
-.counter-number.bounce {
-  transform: scale(1.4);
-}
-
-/* Мягкий тост */
-.hug-toast {
-  font-size: 0.88rem;
+.bouquet-finale {
+  font-size: 0.95rem;
   font-weight: 600;
-  color: var(--accent-rose);
-  background: #FFF1F4;
-  padding: 6px 16px;
-  border-radius: var(--radius-pill);
-  border: 1px solid rgba(251, 113, 133, 0.3);
+  color: var(--accent-rose-hover);
+  background: #FFFFFF;
+  padding: 12px 18px;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(251, 113, 133, 0.4);
+  box-shadow: 0 8px 20px rgba(244, 63, 94, 0.12);
   opacity: 0;
-  transform: translateY(6px);
-  transition: opacity 0.35s ease, transform 0.35s ease;
-  pointer-events: none;
-  min-height: 22px;
+  max-height: 0;
+  overflow: hidden;
+  transform: translateY(8px);
+  transition: opacity 0.5s ease, transform 0.5s ease, max-height 0.5s ease, padding 0.4s ease;
+  padding-top: 0;
+  padding-bottom: 0;
 }
 
-.hug-toast.show {
+.bouquet-interactive-box.all-bloomed .bouquet-finale {
   opacity: 1;
+  max-height: 140px;
   transform: translateY(0);
+  padding: 12px 18px;
 }
 
 /* Подвал */

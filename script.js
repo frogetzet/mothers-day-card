@@ -7,41 +7,45 @@ document.addEventListener('DOMContentLoaded', () => {
   'use strict';
 
   /* ==========================================================================
-     1. ИНТЕРАКТИВНЫЙ КОНВЕРТ И ПЕРЕХОД К ПОЗДРАВЛЕНИЮ
+     1. ИНТЕРАКТИВНЫЙ КОНВЕРТ И КРАСИВО ВЫСКАКИВАЮЩЕЕ ПИСЬМО (БЕЗ ПЕРЕМОТКИ)
      ========================================================================== */
+  const envelopeScene = document.getElementById('envelopeScene');
   const envelopeWrapper = document.getElementById('envelopeWrapper');
   const envelopeCard = document.getElementById('envelopeCard');
   const waxSeal = document.getElementById('waxSeal');
+  const openedLetterSheet = document.getElementById('openedLetterSheet');
   const scrollDownIndicator = document.getElementById('scrollDownIndicator');
-  const mainGreeting = document.getElementById('mainGreeting');
+  const reasonsBlock = document.getElementById('reasonsBlock');
   let isEnvelopeOpened = false;
 
   function openEnvelope() {
     if (isEnvelopeOpened) return;
     isEnvelopeOpened = true;
 
-    // Активируем визуальное открытие клапана и подъем письма
+    // 1. Открываем клапан конверта и приподнимаем письмо
     envelopeWrapper.classList.add('opened');
 
-    // Тактильный отклик при открытии печати
+    // 2. Тактильный отклик
     if (navigator.vibrate) {
       navigator.vibrate([30, 45, 30]);
     }
 
-    // Запускаем падающие лепестки
+    // 3. Запускаем падающие лепестки
     startPetalsAnimation();
 
-    // Показываем индикатор скролла
-    if (scrollDownIndicator) {
-      scrollDownIndicator.classList.add('visible');
-    }
-
-    // Мягкий автоматический переход к главному экрану через 950ms
+    // 4. Плавно сдвигаем конверт чуть вниз и красиво раскрываем лист с поздравлением прямо на месте
     setTimeout(() => {
-      if (mainGreeting) {
-        mainGreeting.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      if (envelopeScene) {
+        envelopeScene.classList.add('is-opened');
       }
-    }, 950);
+      if (openedLetterSheet) {
+        openedLetterSheet.classList.add('visible');
+        openedLetterSheet.setAttribute('aria-hidden', 'false');
+      }
+      if (scrollDownIndicator) {
+        scrollDownIndicator.classList.add('visible');
+      }
+    }, 280);
   }
 
   if (envelopeWrapper) {
@@ -60,8 +64,8 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   if (scrollDownIndicator) {
     scrollDownIndicator.addEventListener('click', () => {
-      if (mainGreeting) {
-        mainGreeting.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      if (reasonsBlock) {
+        reasonsBlock.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
     });
   }
@@ -444,15 +448,15 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   /* ==========================================================================
-     5. КНОПКА «ОТПРАВИТЬ ОБЪЯТИЕ» И ВЗЛЕТАЮЩИЕ ТЮЛЬПАНЫ/СЕРДЦА
+     5. ИНТЕРАКТИВНЫЙ РАСЦВЕТАЮЩИЙ БУКЕТ ТЮЛЬПАНОВ (БЕЗ КНОПОК)
      ========================================================================== */
-  const btnHug = document.getElementById('btnHug');
-  const hugCounterNumber = document.getElementById('hugCounterNumber');
-  const hugToast = document.getElementById('hugToast');
+  const bouquetBox = document.getElementById('bouquetBox');
+  const bouquetTulips = Array.from(document.querySelectorAll('.bouquet-tulip'));
+  const bloomCountEl = document.getElementById('bloomCount');
+  const bouquetPrompt = document.getElementById('bouquetPrompt');
   const hugParticlesContainer = document.getElementById('hugParticlesContainer');
 
-  let hugCount = 0;
-  let toastTimeout = null;
+  let bloomedCount = 0;
 
   const svgTulip = `
     <svg viewBox="0 0 32 32" width="30" height="30" fill="none" stroke="currentColor">
@@ -470,28 +474,27 @@ document.addEventListener('DOMContentLoaded', () => {
   `;
 
   const particlePalette = [
-    '#F43F5E', // Сочный розовый
-    '#FB7185', // Светящийся розовый
-    '#FDA4AF', // Персиковый
-    '#38BDF8', // Небесный
-    '#E11D48', // Рубиновый
-    '#F59E0B'  // Золотистый
+    '#F43F5E',
+    '#FB7185',
+    '#FDA4AF',
+    '#38BDF8',
+    '#E11D48',
+    '#F59E0B'
   ];
 
-  function spawnHugParticles() {
+  function spawnCelebrationParticles(count, baseColor = null) {
     if (!hugParticlesContainer) return;
 
-    const particleCount = 16;
     const windowWidth = window.innerWidth;
 
-    for (let i = 0; i < particleCount; i++) {
+    for (let i = 0; i < count; i++) {
       const particle = document.createElement('div');
       particle.className = 'hug-particle';
 
-      const isTulip = Math.random() > 0.45;
+      const isTulip = Math.random() > 0.4;
       particle.innerHTML = isTulip ? svgTulip : svgHeart;
 
-      const color = particlePalette[Math.floor(Math.random() * particlePalette.length)];
+      const color = baseColor || particlePalette[Math.floor(Math.random() * particlePalette.length)];
       particle.style.color = color;
 
       const startX = Math.random() * windowWidth;
@@ -519,34 +522,51 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  function handleHugClick() {
-    hugCount++;
-    if (hugCounterNumber) {
-      hugCounterNumber.textContent = hugCount.toString();
-      hugCounterNumber.classList.add('bounce');
-      setTimeout(() => {
-        hugCounterNumber.classList.remove('bounce');
-      }, 300);
-    }
+  function bloomTulip(tulipEl) {
+    if (!tulipEl) return;
 
-    if (navigator.vibrate) {
-      navigator.vibrate(35);
-    }
+    const color = tulipEl.getAttribute('data-color') || '#F43F5E';
 
-    spawnHugParticles();
+    if (!tulipEl.classList.contains('bloomed')) {
+      tulipEl.classList.add('bloomed');
+      bloomedCount++;
 
-    if (hugToast) {
-      hugToast.classList.add('show');
-      if (toastTimeout) clearTimeout(toastTimeout);
-      toastTimeout = setTimeout(() => {
-        hugToast.classList.remove('show');
-      }, 2400);
+      if (bloomCountEl) {
+        bloomCountEl.textContent = bloomedCount.toString();
+      }
+
+      if (navigator.vibrate) {
+        navigator.vibrate(25);
+      }
+
+      spawnCelebrationParticles(5, color);
+
+      if (bloomedCount === bouquetTulips.length && bouquetBox) {
+        bouquetBox.classList.add('all-bloomed');
+        if (bouquetPrompt) {
+          bouquetPrompt.textContent = 'Твой весенний букет собран 💐';
+        }
+        if (navigator.vibrate) {
+          navigator.vibrate([30, 50, 40]);
+        }
+        spawnCelebrationParticles(18);
+      }
+    } else {
+      // Повторное прикосновение к уже распустившемуся цветку дарит лёгкий всплеск лепестков
+      if (navigator.vibrate) navigator.vibrate(15);
+      spawnCelebrationParticles(4, color);
     }
   }
 
-  if (btnHug) {
-    btnHug.addEventListener('click', handleHugClick);
-  }
+  bouquetTulips.forEach((tulip) => {
+    tulip.addEventListener('click', () => bloomTulip(tulip));
+    tulip.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        bloomTulip(tulip);
+      }
+    });
+  });
 
   /* ==========================================================================
      6. ПЛАВНОЕ ПОЯВЛЕНИЕ ЭЛЕМЕНТОВ ПРИ СКРОЛЛЕ (INTERSECTION OBSERVER)

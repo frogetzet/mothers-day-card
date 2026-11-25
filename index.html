@@ -30,9 +30,9 @@
   <!-- Главный центрированный контейнер -->
   <main class="app-container">
 
-    <!-- 1. ПЕРВЫЙ ЭКРАН (100dvh): ИНТЕРАКТИВНЫЙ КОНВЕРТ -->
+    <!-- 1. ПЕРВЫЙ ЭКРАН (100dvh): ИНТЕРАКТИВНЫЙ КОНВЕРТ И ВСПЛЫВАЮЩЕЕ ПИСЬМО -->
     <section class="screen-envelope" id="envelopeScreen">
-      <div class="envelope-scene">
+      <div class="envelope-scene" id="envelopeScene">
         
         <div class="envelope-wrapper" id="envelopeWrapper">
           <div class="envelope" id="envelopeCard" role="button" tabindex="0" aria-label="Открыть поздравительный конверт">
@@ -75,15 +75,39 @@
           </div>
         </div>
 
-        <div class="envelope-caption">
+        <div class="envelope-caption" id="envelopeCaption">
           <p class="caption-title">Для самой лучшей мамы</p>
           <p class="caption-action">Нажми, чтобы открыть 🤍</p>
         </div>
 
       </div>
 
+      <!-- Красиво выскакивающий лист поздравления прямо на месте без перемотки -->
+      <article class="opened-letter-sheet" id="openedLetterSheet" aria-hidden="true">
+        <div class="letter-sheet-inner">
+          <div class="floral-divider letter-line" style="--line-delay: 0.15s;" aria-hidden="true">
+            <svg class="divider-tulip" viewBox="0 0 40 24" fill="none" stroke="currentColor">
+              <line x1="0" y1="12" x2="14" y2="12" stroke-width="1" stroke-opacity="0.4" />
+              <path d="M20 5 C18 8 17 12 20 15 C23 12 22 8 20 5 Z" stroke-width="1.3" fill="rgba(244, 63, 94, 0.2)" stroke-linecap="round"/>
+              <path d="M20 15 C17 15 14 12 15 8 C17 10 19 13 20 13.5" stroke-width="1.2" stroke-linecap="round"/>
+              <path d="M20 15 C23 15 26 12 25 8 C23 10 21 13 20 13.5" stroke-width="1.2" stroke-linecap="round"/>
+              <line x1="20" y1="15" x2="20" y2="21" stroke-width="1.2" stroke-linecap="round"/>
+              <line x1="26" y1="12" x2="40" y2="12" stroke-width="1" stroke-opacity="0.4" />
+            </svg>
+          </div>
+
+          <h1 class="hero-title letter-line" style="--line-delay: 0.28s;">С Днём матери!</h1>
+
+          <div class="hero-intro">
+            <p class="letter-line" style="--line-delay: 0.42s;">Мамочка, этот день — ещё один тёплый повод сказать то, о чём мы помним каждую секунду нашей жизни.</p>
+            <p class="letter-line" style="--line-delay: 0.58s;">Спасибо за твою безграничную нежность, тепло родных рук и дом, в который всегда хочется возвращаться. Ты — наше самое главное счастье и самый надёжный свет.</p>
+          </div>
+        </div>
+      </article>
+
       <!-- Иконка плавного скролла вниз после открытия -->
       <div class="scroll-down-indicator" id="scrollDownIndicator" aria-hidden="true">
+        <span class="scroll-hint-label">Листай вниз</span>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
           <path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
@@ -93,29 +117,6 @@
 
     <!-- ОСНОВНОЙ КОНТЕНТ ОТКРЫТКИ -->
     <div class="card-content-flow" id="cardContentFlow">
-
-      <!-- 2. ГЛАВНЫЙ ЭКРАН ПОЗДРАВЛЕНИЯ (без даты) -->
-      <section class="section-hero reveal-item" id="mainGreeting">
-        
-        <h1 class="hero-title">С Днём матери!</h1>
-
-        <div class="floral-divider" aria-hidden="true">
-          <svg class="divider-tulip" viewBox="0 0 40 24" fill="none" stroke="currentColor">
-            <line x1="0" y1="12" x2="14" y2="12" stroke-width="1" stroke-opacity="0.4" />
-            <path d="M20 5 C18 8 17 12 20 15 C23 12 22 8 20 5 Z" stroke-width="1.3" fill="rgba(244, 63, 94, 0.2)" stroke-linecap="round"/>
-            <path d="M20 15 C17 15 14 12 15 8 C17 10 19 13 20 13.5" stroke-width="1.2" stroke-linecap="round"/>
-            <path d="M20 15 C23 15 26 12 25 8 C23 10 21 13 20 13.5" stroke-width="1.2" stroke-linecap="round"/>
-            <line x1="20" y1="15" x2="20" y2="21" stroke-width="1.2" stroke-linecap="round"/>
-            <line x1="26" y1="12" x2="40" y2="12" stroke-width="1" stroke-opacity="0.4" />
-          </svg>
-        </div>
-
-        <div class="hero-intro">
-          <p>Мамочка, этот день — ещё один тёплый повод сказать то, о чём мы помним каждую секунду нашей жизни.</p>
-          <p>Спасибо за твою безграничную нежность, тепло родных рук и дом, в который всегда хочется возвращаться. Ты — наше самое главное счастье и самый надёжный свет.</p>
-        </div>
-
-      </section>
 
 
       <!-- 3. БЛОК «10 ПРИЧИН, ПОЧЕМУ ТЫ ЛУЧШАЯ МАМА» (без плашки "искренние слова") -->
@@ -558,7 +559,7 @@
       </section>
 
 
-      <!-- 5. ФИНАЛЬНЫЙ БЛОК ОТ ВСЕЙ СЕМЬИ И КНОПКА «ОБНЯТЬ» -->
+      <!-- 5. ФИНАЛЬНЫЙ БЛОК ОТ ВСЕЙ СЕМЬИ И ИНТЕРАКТИВНЫЙ БУКЕТ -->
       <section class="section-final reveal-item" id="finalBlock">
         
         <div class="final-card">
@@ -573,48 +574,115 @@
             </svg>
           </div>
 
-          <h2 class="final-heading">С любовью и благодарностью</h2>
+          <h2 class="final-heading">Всегда рядом с тобой</h2>
 
           <div class="final-letter-body">
-            <p>Мамочка, спасибо за каждое объятие, за каждую сказку в детстве и за то, что твоё сердце всегда бьётся в унисон с нашими.</p>
-            <p>Мы обещаем беречь твой покой, почаще радовать тебя и делать всё, чтобы твои глаза сияли только от счастья.</p>
-            <p>Ты заслуживаешь самого прекрасного, спокойного и доброго мира вокруг!</p>
+            <p>Мамочка, сколько бы лет ни прошло, для нас ты всегда остаёшься самым главным человеком — тем самым тёплым маяком, который согревает даже на расстоянии.</p>
+            <p>Пусть в твоём сердце всегда будет спокойно и светло, пусть каждый новый день дарит повод для искренней улыбки, а все тревоги обходят наш дом стороной.</p>
+            <p>Мы бесконечно любим тебя и бережём каждую минуту, проведённую вместе!</p>
           </div>
 
           <div class="final-signature">
-            <span class="signature-lead">С бесконечной любовью,</span>
+            <span class="signature-lead">С нежностью и теплом,</span>
             <span class="signature-names">твоя семья и Мася 🐾</span>
           </div>
 
-          <!-- Интерактивная зона объятий -->
-          <div class="hug-interactive-box">
-            
-            <button type="button" class="btn-hug" id="btnHug" aria-label="Отправить маме объятие">
-              <span class="btn-hug-glow" aria-hidden="true"></span>
-              <svg class="btn-hug-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-              <span class="btn-hug-text">Отправить объятие</span>
-            </button>
+          <!-- Интерактивный расцветающий букет для мамы (без кнопок) -->
+          <div class="bouquet-interactive-box" id="bouquetBox">
+            <p class="bouquet-prompt" id="bouquetPrompt">Прикоснись к каждому бутону, чтобы расцвёл букет</p>
 
-            <!-- Счётчик отправленных объятий -->
-            <div class="hug-counter-wrap">
-              <span class="counter-label">Объятий отправлено:</span>
-              <span class="counter-number" id="hugCounterNumber">0</span>
+            <div class="bouquet-stage" id="bouquetStage">
+              <!-- Тюльпан 1 -->
+              <div class="bouquet-tulip" data-wish="Здоровья" data-color="#F43F5E" role="button" tabindex="0" aria-label="Распустить тюльпан: Здоровья" style="--tulip-tilt: -14deg; --tulip-y: 10px;">
+                <span class="tulip-wish-pill">Здоровья</span>
+                <svg class="tulip-bloom-svg" viewBox="0 0 64 96" fill="none">
+                  <path class="tulip-stem" d="M32 46 Q34 70 32 92" stroke="#4D7C5B" stroke-width="2.6" stroke-linecap="round"/>
+                  <path class="tulip-leaf" d="M32 76 Q18 68 18 52 Q26 62 32 70" fill="rgba(104, 159, 118, 0.35)" stroke="#4D7C5B" stroke-width="1.6"/>
+                  <g class="tulip-head">
+                    <path class="petal-left" d="M32 46 C20 42 18 22 26 14 C30 22 31 34 32 46 Z" fill="rgba(244, 63, 94, 0.25)" stroke="#F43F5E" stroke-width="1.8"/>
+                    <path class="petal-right" d="M32 46 C44 42 46 22 38 14 C34 22 33 34 32 46 Z" fill="rgba(244, 63, 94, 0.25)" stroke="#F43F5E" stroke-width="1.8"/>
+                    <path class="petal-center" d="M32 10 C25 22 25 38 32 46 C39 38 39 22 32 10 Z" fill="rgba(244, 63, 94, 0.35)" stroke="#E11D48" stroke-width="1.8"/>
+                  </g>
+                </svg>
+              </div>
+
+              <!-- Тюльпан 2 -->
+              <div class="bouquet-tulip" data-wish="Улыбок" data-color="#FB7185" role="button" tabindex="0" aria-label="Распустить тюльпан: Улыбок" style="--tulip-tilt: -7deg; --tulip-y: 3px;">
+                <span class="tulip-wish-pill">Улыбок</span>
+                <svg class="tulip-bloom-svg" viewBox="0 0 64 96" fill="none">
+                  <path class="tulip-stem" d="M32 46 Q30 70 32 92" stroke="#4D7C5B" stroke-width="2.6" stroke-linecap="round"/>
+                  <path class="tulip-leaf" d="M32 74 Q45 66 45 50 Q38 60 32 68" fill="rgba(104, 159, 118, 0.35)" stroke="#4D7C5B" stroke-width="1.6"/>
+                  <g class="tulip-head">
+                    <path class="petal-left" d="M32 46 C20 42 18 22 26 14 C30 22 31 34 32 46 Z" fill="rgba(251, 113, 133, 0.25)" stroke="#FB7185" stroke-width="1.8"/>
+                    <path class="petal-right" d="M32 46 C44 42 46 22 38 14 C34 22 33 34 32 46 Z" fill="rgba(251, 113, 133, 0.25)" stroke="#FB7185" stroke-width="1.8"/>
+                    <path class="petal-center" d="M32 10 C25 22 25 38 32 46 C39 38 39 22 32 10 Z" fill="rgba(251, 113, 133, 0.35)" stroke="#F43F5E" stroke-width="1.8"/>
+                  </g>
+                </svg>
+              </div>
+
+              <!-- Тюльпан 3 (Центральный) -->
+              <div class="bouquet-tulip" data-wish="Любви" data-color="#E11D48" role="button" tabindex="0" aria-label="Распустить тюльпан: Любви" style="--tulip-tilt: 0deg; --tulip-y: -2px;">
+                <span class="tulip-wish-pill">Любви</span>
+                <svg class="tulip-bloom-svg" viewBox="0 0 64 96" fill="none">
+                  <path class="tulip-stem" d="M32 46 L32 92" stroke="#4D7C5B" stroke-width="2.8" stroke-linecap="round"/>
+                  <path class="tulip-leaf" d="M32 78 Q18 68 18 52 Q26 62 32 72" fill="rgba(104, 159, 118, 0.35)" stroke="#4D7C5B" stroke-width="1.6"/>
+                  <g class="tulip-head">
+                    <path class="petal-left" d="M32 46 C20 42 18 22 26 14 C30 22 31 34 32 46 Z" fill="rgba(225, 29, 72, 0.25)" stroke="#E11D48" stroke-width="1.8"/>
+                    <path class="petal-right" d="M32 46 C44 42 46 22 38 14 C34 22 33 34 32 46 Z" fill="rgba(225, 29, 72, 0.25)" stroke="#E11D48" stroke-width="1.8"/>
+                    <path class="petal-center" d="M32 10 C25 22 25 38 32 46 C39 38 39 22 32 10 Z" fill="rgba(225, 29, 72, 0.35)" stroke="#BE123C" stroke-width="1.8"/>
+                  </g>
+                </svg>
+              </div>
+
+              <!-- Тюльпан 4 -->
+              <div class="bouquet-tulip" data-wish="Уюта" data-color="#F59E0B" role="button" tabindex="0" aria-label="Распустить тюльпан: Уюта" style="--tulip-tilt: 7deg; --tulip-y: 3px;">
+                <span class="tulip-wish-pill">Уюта</span>
+                <svg class="tulip-bloom-svg" viewBox="0 0 64 96" fill="none">
+                  <path class="tulip-stem" d="M32 46 Q34 70 32 92" stroke="#4D7C5B" stroke-width="2.6" stroke-linecap="round"/>
+                  <path class="tulip-leaf" d="M32 74 Q45 66 45 50 Q38 60 32 68" fill="rgba(104, 159, 118, 0.35)" stroke="#4D7C5B" stroke-width="1.6"/>
+                  <g class="tulip-head">
+                    <path class="petal-left" d="M32 46 C20 42 18 22 26 14 C30 22 31 34 32 46 Z" fill="rgba(245, 158, 11, 0.22)" stroke="#F59E0B" stroke-width="1.8"/>
+                    <path class="petal-right" d="M32 46 C44 42 46 22 38 14 C34 22 33 34 32 46 Z" fill="rgba(245, 158, 11, 0.22)" stroke="#F59E0B" stroke-width="1.8"/>
+                    <path class="petal-center" d="M32 10 C25 22 25 38 32 46 C39 38 39 22 32 10 Z" fill="rgba(245, 158, 11, 0.32)" stroke="#D97706" stroke-width="1.8"/>
+                  </g>
+                </svg>
+              </div>
+
+              <!-- Тюльпан 5 -->
+              <div class="bouquet-tulip" data-wish="Счастья" data-color="#38BDF8" role="button" tabindex="0" aria-label="Распустить тюльпан: Счастья" style="--tulip-tilt: 14deg; --tulip-y: 10px;">
+                <span class="tulip-wish-pill">Счастья</span>
+                <svg class="tulip-bloom-svg" viewBox="0 0 64 96" fill="none">
+                  <path class="tulip-stem" d="M32 46 Q30 70 32 92" stroke="#4D7C5B" stroke-width="2.6" stroke-linecap="round"/>
+                  <path class="tulip-leaf" d="M32 76 Q18 68 18 52 Q26 62 32 70" fill="rgba(104, 159, 118, 0.35)" stroke="#4D7C5B" stroke-width="1.6"/>
+                  <g class="tulip-head">
+                    <path class="petal-left" d="M32 46 C20 42 18 22 26 14 C30 22 31 34 32 46 Z" fill="rgba(56, 189, 248, 0.22)" stroke="#0EA5E9" stroke-width="1.8"/>
+                    <path class="petal-right" d="M32 46 C44 42 46 22 38 14 C34 22 33 34 32 46 Z" fill="rgba(56, 189, 248, 0.22)" stroke="#0EA5E9" stroke-width="1.8"/>
+                    <path class="petal-center" d="M32 10 C25 22 25 38 32 46 C39 38 39 22 32 10 Z" fill="rgba(56, 189, 248, 0.32)" stroke="#0284C7" stroke-width="1.8"/>
+                  </g>
+                </svg>
+              </div>
             </div>
 
-            <!-- Всплывающее уведомление о тепле -->
-            <div class="hug-toast" id="hugToast" role="status" aria-live="polite">
-              Мама почувствовала твоё тепло 🤍
+            <!-- Атласная лента букета -->
+            <div class="bouquet-ribbon" aria-hidden="true">
+              <span class="ribbon-knot">🎀</span>
             </div>
 
+            <!-- Статус и финальное раскрытие букета -->
+            <div class="bouquet-status" id="bouquetStatus">
+              Распустилось цветов: <span id="bloomCount">0</span> из 5
+            </div>
+
+            <div class="bouquet-finale" id="bouquetFinale" aria-live="polite">
+              Букет расцвёл! Пусть каждое из этих пожеланий сбудется для тебя в стократном размере 🌷✨
+            </div>
           </div>
 
         </div>
 
         <!-- Подвал -->
         <footer class="app-footer">
-          <p class="footer-note">Создано с бесконечной любовью специально ко Дню матери</p>
+          <p class="footer-note">Создано с бесконечной любовью специально для тебя</p>
         </footer>
 
       </section>
