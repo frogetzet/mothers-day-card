@@ -544,7 +544,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (bloomedCount === bouquetTulips.length && bouquetBox) {
         bouquetBox.classList.add('all-bloomed');
         if (bouquetPrompt) {
-          bouquetPrompt.textContent = 'Твой весенний букет собран 💐';
+          bouquetPrompt.textContent = 'Этот букет для тебя! 💐';
         }
         if (navigator.vibrate) {
           navigator.vibrate([30, 50, 40]);
